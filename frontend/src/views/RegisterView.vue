@@ -10,6 +10,7 @@ const username = ref('')
 const email = ref('')
 const password = ref('')
 const referralCode = ref('')
+const house = ref('')
 const error = ref('')
 const loading = ref(false)
 
@@ -22,6 +23,7 @@ async function handleRegister() {
       email: email.value,
       password: password.value,
       referralCode: referralCode.value || undefined,
+      house: house.value || undefined,
     })
     router.push('/dashboard')
   } catch (e: unknown) {
@@ -92,6 +94,21 @@ async function handleRegister() {
             class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
             placeholder="ABC123"
           />
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">House (optional)</label>
+          <select
+            v-model="house"
+            data-testid="house-select"
+            class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+          >
+            <option value="">Choose later</option>
+            <option value="Pyromancers">🔥 Pyromancers (Fire &amp; Courage)</option>
+            <option value="Frostwardens">❄️ Frostwardens (Ice &amp; Wisdom)</option>
+            <option value="Stormcallers">⚡ Stormcallers (Lightning &amp; Speed)</option>
+            <option value="Earthshapers">🌿 Earthshapers (Earth &amp; Strength)</option>
+          </select>
         </div>
 
         <button

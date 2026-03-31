@@ -11,6 +11,7 @@ public interface IPlayerService
     Task<PlayerProfileResponse> UpdateProfileAsync(Guid playerId, UpdateProfileRequest request);
     Task<PlayerProfileResponse> AddExperienceAsync(Guid playerId, long amount);
     Task<List<PlayerProfileResponse>> GetLeaderboardAsync(int top = 10);
+    Task<BattleStatsResponse> GetBattleStatsAsync(Guid playerId);
 }
 
 public class PlayerService : IPlayerService
@@ -82,8 +83,80 @@ public class PlayerService : IPlayerService
         return players.Select(MapToResponse).ToList();
     }
 
-    private static PlayerProfileResponse MapToResponse(Player p) => new(
-        p.Id, p.Username, p.Email, p.GoldCoins, p.Level,
-        p.Experience, p.MagicPower, p.Strength, p.Wisdom,
-        p.Speed, p.ReferralCode, p.CreatedAt, p.IsAdmin);
+    public async Task<BattleStatsResponse> GetBattleStatsAsync(Guid playerId)
+    {
+        _ = await _db.Players.FindAsync(playerId)
+            ?? throw new KeyNotFoundException("Player not found.");
+
+        var battles = await _db.Battles
+            .Where(b => (b.ChallengerId == playerId || b.DefenderId == playerId)
+                        && b.Status == BattleStatus.Finished)
+            .OrderByDescending(b => b.FinishedAt)
+            .ToListAsync();
+
+        var wins = battles.Count(b => b.WinnerId == playerId);
+        var losses = battles.Count - wins;
+        var winRate = battles.Count > 0 ? (double)wins / battles.Count : 0.0;
+
+        var turns = await _db.BattleTurns
+            .Include(t => t.Spell)
+            .Where(t => t.Battle!.ChallengerId == playerId || t.Battle!.DefenderId == playerId)
+            .Where(t => t.Battle!.Status == BattleStatus.Finished)
+            .ToListAsync();
+
+        long totalDamageDealt = turns.Where(t => t.AttackerId == playerId).Sum(t => (long)t.DamageDealt);
+        long totalDamageReceived = turns.Where(t => t.AttackerId != playerId).Sum(t => (long)t.DamageDealt);
+
+        var mostUsedSpell = turns
+            .Where(t => t.AttackerId == playerId && t.Spell != null)
+            .GroupBy(t => t.Spell!.Name)
+            .OrderByDescending(g => g.Count())
+            .Select(g => g.Key)
+            .FirstOrDefault();
+
+        // Calculate win streaks in a single pass (battles ordered most recent first)
+        int currentStreak = 0;
+        int bestStreak = 0;
+        int tempStreak = 0;
+        bool countingCurrent = true;
+        foreach (var b in battles)
+        {
+            if (b.WinnerId == playerId)
+            {
+                tempStreak++;
+                if (countingCurrent) currentStreak++;
+                if (tempStreak > bestStreak) bestStreak = tempStreak;
+            }
+            else
+            {
+                countingCurrent = false;
+                tempStreak = 0;
+            }
+        }
+
+        return new BattleStatsResponse(
+            battles.Count, wins, losses, Math.Round(winRate, 4),
+            totalDamageDealt, totalDamageReceived,
+            mostUsedSpell, currentStreak, bestStreak);
+    }
+
+    private static PlayerProfileResponse MapToResponse(Player p)
+    {
+        var (tier, badge) = GetRankInfo(p.EloRating);
+        return new(
+            p.Id, p.Username, p.Email, p.GoldCoins, p.Level,
+            p.Experience, p.MagicPower, p.Strength, p.Wisdom,
+            p.Speed, p.ReferralCode, p.CreatedAt, p.IsAdmin,
+            p.EloRating, p.House, tier, badge,
+            p.HasCompletedOnboarding, p.LoginStreak);
+    }
+
+    private static (string Tier, string Badge) GetRankInfo(int elo) => elo switch
+    {
+        >= 2000 => ("Archmage", "🔮"),
+        >= 1600 => ("Master Wizard", "⭐"),
+        >= 1200 => ("Journeyman", "🌟"),
+        >= 800 => ("Apprentice", "📖"),
+        _ => ("Novice", "🪄")
+    };
 }

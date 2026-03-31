@@ -47,6 +47,7 @@ export interface RegisterRequest {
   email: string
   password: string
   referralCode?: string
+  house?: string
 }
 
 export interface LoginRequest {
@@ -88,6 +89,12 @@ export interface PlayerProfileResponse {
   referralCode: string
   createdAt: string
   isAdmin: boolean
+  eloRating: number
+  house: string
+  rankTier: string
+  rankBadge: string
+  hasCompletedOnboarding: boolean
+  loginStreak: number
 }
 
 export interface UpdateProfileRequest {
@@ -297,4 +304,134 @@ export interface CreateTeamRequest {
 
 export interface ResolveLeagueRequest {
   winnerTeamId: string
+}
+
+/* ── Quest ────────────────────────────────────────── */
+
+export const QuestType = {
+  Daily: 0,
+  Weekly: 1,
+} as const
+export type QuestType = (typeof QuestType)[keyof typeof QuestType]
+
+export const QuestStatus = {
+  Active: 0,
+  Completed: 1,
+  Expired: 2,
+} as const
+export type QuestStatus = (typeof QuestStatus)[keyof typeof QuestStatus]
+
+export interface QuestResponse {
+  id: string
+  title: string
+  description: string
+  type: QuestType
+  status: QuestStatus
+  targetCount: number
+  currentCount: number
+  goldReward: number
+  xpReward: number
+  expiresAt: string
+}
+
+/* ── Achievement ──────────────────────────────────── */
+
+export interface AchievementResponse {
+  id: string
+  key: string
+  name: string
+  description: string
+  unlockedAt: string
+}
+
+/* ── Notification ─────────────────────────────────── */
+
+export interface NotificationResponse {
+  id: string
+  title: string
+  message: string
+  type: string
+  isRead: boolean
+  createdAt: string
+}
+
+/* ── Equipment ────────────────────────────────────── */
+
+export interface EquippedItemResponse {
+  bankItemId: string
+  itemId: string
+  name: string
+  description: string
+  type: ItemType
+  magicBonus: number
+  strengthBonus: number
+  wisdomBonus: number
+  speedBonus: number
+}
+
+export interface EquipmentSlots {
+  wand: EquippedItemResponse | null
+  robe: EquippedItemResponse | null
+  hat: EquippedItemResponse | null
+  amulet: EquippedItemResponse | null
+  broom: EquippedItemResponse | null
+}
+
+export interface EquipItemRequest {
+  bankItemId: string
+}
+
+export interface UnequipItemRequest {
+  slot: string
+}
+
+/* ── House ────────────────────────────────────────── */
+
+export interface HouseLeaderboardEntry {
+  house: string
+  totalPoints: number
+  memberCount: number
+}
+
+export interface HousePointsResponse {
+  id: string
+  playerId: string
+  playerUsername: string
+  house: string
+  points: number
+  activity: string
+  earnedAt: string
+}
+
+export interface SelectHouseRequest {
+  house: string
+}
+
+/* ── Login Reward ─────────────────────────────────── */
+
+export interface LoginRewardResponse {
+  day: number
+  goldReward: number
+  itemReward: string | null
+  loginStreak: number
+}
+
+export interface LoginRewardStatus {
+  loginStreak: number
+  canClaimToday: boolean
+  lastClaimDate: string | null
+}
+
+/* ── Battle Stats ─────────────────────────────────── */
+
+export interface BattleStatsResponse {
+  totalBattles: number
+  wins: number
+  losses: number
+  winRate: number
+  totalDamageDealt: number
+  totalDamageReceived: number
+  mostUsedSpell: string | null
+  currentWinStreak: number
+  bestWinStreak: number
 }
