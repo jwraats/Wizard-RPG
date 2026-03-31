@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  release:
+    types: [published]
 
 permissions:
   contents: read
@@ -59,7 +61,7 @@ jobs:
     name: Build and Push Docker Images
     needs: [test-backend, test-frontend]
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'release'
     steps:
       - uses: actions/checkout@v4
 
@@ -81,6 +83,7 @@ jobs:
           tags: |
             type=sha
             type=raw,value=latest
+            type=raw,value=${{ github.event.release.tag_name }},enable=${{ github.event_name == 'release' }}
 
       - name: Build and push backend
         uses: docker/build-push-action@v6
@@ -101,6 +104,7 @@ jobs:
           tags: |
             type=sha
             type=raw,value=latest
+            type=raw,value=${{ github.event.release.tag_name }},enable=${{ github.event_name == 'release' }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v6
@@ -112,3 +116,41 @@ jobs:
           labels: ${{ steps.meta-frontend.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  update-gitops:
+    name: Update GitOps Image Tags
+    needs: [build-and-push]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup kustomize
+        run: |
+          curl -sfLo kustomize.tar.gz "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.6.0/kustomize_v5.6.0_linux_amd64.tar.gz"
+          tar xzf kustomize.tar.gz
+          sudo mv kustomize /usr/local/bin/
+          rm kustomize.tar.gz
+
+      - name: Update kustomize image tags
+        run: |
+          cd gitops/apps/wizard-rpg
+          kustomize edit set image \
+            "ghcr.io/jwraats/wizard-rpg-api:${{ github.event.release.tag_name }}" \
+            "ghcr.io/jwraats/wizard-rpg-frontend:${{ github.event.release.tag_name }}"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add gitops/apps/wizard-rpg/kustomization.yaml
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update image tags to ${{ github.event.release.tag_name }}"
+            git push
+          fi
