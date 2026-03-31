@@ -26,6 +26,8 @@ public class AppDbContext : DbContext
     public DbSet<QuizQuestion> QuizQuestions => Set<QuizQuestion>();
     public DbSet<QuizAttempt> QuizAttempts => Set<QuizAttempt>();
     public DbSet<DungeonRun> DungeonRuns => Set<DungeonRun>();
+    public DbSet<Creature> Creatures => Set<Creature>();
+    public DbSet<PlayerCreature> PlayerCreatures => Set<PlayerCreature>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -219,6 +221,24 @@ public class AppDbContext : DbContext
              .OnDelete(DeleteBehavior.Cascade);
             e.Property(r => r.GoldCollected).HasDefaultValue(0L);
             e.Property(r => r.CurrentFloor).HasDefaultValue(1);
+        });
+
+        modelBuilder.Entity<Creature>(e =>
+        {
+            e.HasKey(c => c.Id);
+        });
+
+        modelBuilder.Entity<PlayerCreature>(e =>
+        {
+            e.HasKey(pc => pc.Id);
+            e.HasOne(pc => pc.Player)
+             .WithMany(p => p.PlayerCreatures)
+             .HasForeignKey(pc => pc.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(pc => pc.Creature)
+             .WithMany(c => c.PlayerCreatures)
+             .HasForeignKey(pc => pc.CreatureId)
+             .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

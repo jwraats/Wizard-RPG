@@ -146,5 +146,27 @@ public static class SeedData
             context.QuizQuestions.AddRange(quizQuestions);
             context.SaveChanges();
         }
+
+        if (!context.Creatures.Any())
+        {
+            var creatures = new List<Creature>
+            {
+                // Common
+                new() { Id = Guid.NewGuid(), Name = "Fire Sprite", Description = "A tiny, mischievous flame spirit that hoards shiny coins.", Rarity = CreatureRarity.Common, BaseHealth = 30, BaseAttack = 8, BonusType = "gold", BonusValue = 5 },
+                new() { Id = Guid.NewGuid(), Name = "Shadow Cat", Description = "A sleek feline that moves between shadows with uncanny speed.", Rarity = CreatureRarity.Common, BaseHealth = 35, BaseAttack = 12, BonusType = "speed", BonusValue = 5 },
+                // Uncommon
+                new() { Id = Guid.NewGuid(), Name = "Storm Hawk", Description = "A majestic bird of prey that channels lightning through its feathers.", Rarity = CreatureRarity.Uncommon, BaseHealth = 50, BaseAttack = 18, BonusType = "magic", BonusValue = 8 },
+                new() { Id = Guid.NewGuid(), Name = "Iron Golem", Description = "A small but sturdy construct of enchanted metal that never tires.", Rarity = CreatureRarity.Uncommon, BaseHealth = 80, BaseAttack = 15, BonusType = "strength", BonusValue = 8 },
+                // Rare
+                new() { Id = Guid.NewGuid(), Name = "Phoenix Hatchling", Description = "A baby phoenix wreathed in golden flames, radiating arcane energy and ancient knowledge.", Rarity = CreatureRarity.Rare, BaseHealth = 60, BaseAttack = 25, BonusType = "magic+wisdom", BonusValue = 12 },
+                new() { Id = Guid.NewGuid(), Name = "Frost Dragon", Description = "A young dragon of ice that combines raw power with blinding agility.", Rarity = CreatureRarity.Rare, BaseHealth = 90, BaseAttack = 30, BonusType = "strength+speed", BonusValue = 12 },
+                // Legendary
+                new() { Id = Guid.NewGuid(), Name = "Ancient Basilisk", Description = "A primordial serpent whose gaze petrifies and whose presence empowers all aspects of a wizard.", Rarity = CreatureRarity.Legendary, BaseHealth = 120, BaseAttack = 40, BonusType = "gold+magic+strength+wisdom+speed", BonusValue = 15 },
+                new() { Id = Guid.NewGuid(), Name = "Celestial Unicorn", Description = "A divine equine that blesses its companion with fortune and profound insight.", Rarity = CreatureRarity.Legendary, BaseHealth = 100, BaseAttack = 35, BonusType = "gold+wisdom", BonusValue = 20 },
+            };
+
+            context.Creatures.AddRange(creatures);
+            context.SaveChanges();
+        }
     }
 }
