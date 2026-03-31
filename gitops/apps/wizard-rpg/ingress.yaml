@@ -20,7 +20,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: wizard-rpg
+                name: wizard-rpg-frontend
                 port:
                   name: http
   # Uncomment to enable TLS

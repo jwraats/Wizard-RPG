@@ -9,6 +9,9 @@ resources:
   - secret.yaml
   - deployment.yaml
   - service.yaml
+  - frontend-nginx-configmap.yaml
+  - frontend-deployment.yaml
+  - frontend-service.yaml
   - ingress.yaml
 
 commonLabels:

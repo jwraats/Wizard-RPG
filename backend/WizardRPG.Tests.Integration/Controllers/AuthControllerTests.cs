@@ -16,6 +16,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
 
     public AuthControllerTests(WebApplicationFactory<Program> factory)
     {
+        var dbName = "IntegrationTestDb_Auth_" + Guid.NewGuid();
         _factory = factory.WithWebHostBuilder(builder =>
         {
             builder.UseEnvironment("Testing");
@@ -28,7 +29,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
                     services.Remove(descriptor);
 
                 services.AddDbContext<AppDbContext>(options =>
-                    options.UseInMemoryDatabase("IntegrationTestDb_Auth_" + Guid.NewGuid()));
+                    options.UseInMemoryDatabase(dbName));
 
                 // Ensure DB is created
                 var sp = services.BuildServiceProvider();

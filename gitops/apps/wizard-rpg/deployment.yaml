@@ -19,8 +19,7 @@ spec:
     spec:
       containers:
         - name: wizard-rpg
-          # Update this image reference once the Docker image is built and pushed.
-          image: ghcr.io/jwraats/wizard-rpg:latest
+          image: ghcr.io/jwraats/wizard-rpg-api:latest
           imagePullPolicy: Always
           ports:
             - name: http
