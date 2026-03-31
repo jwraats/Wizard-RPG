@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  db:
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: WizardRPG.Api/Dockerfile
+    ports:
+      - "5000:8080"
+      - "5001:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=wizardrpg;Username=wizard;Password=magic123
+      - Jwt__Secret=WizardRPGSecretKey_ChangeInProduction_MustBe32CharsLong!
+      - Jwt__Issuer=WizardRPG
+      - Jwt__Audience=WizardRPGClient
+      - Jwt__ExpiresInMinutes=60
+      - AllowedOrigins__0=http://localhost:3000
+      - AllowedOrigins__1=http://localhost:5173
+    volumes:
+      - ./backend:/src
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: node:20-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:5000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
