@@ -186,7 +186,7 @@ public class BattleService : IBattleService
         };
 
         var damage = spell.BaseDamage + (statBonus / 5);
-        var variance = new Random().Next(-5, 6);
+        var variance = Random.Shared.Next(-5, 6);
         return Math.Max(1, damage + variance);
     }
 

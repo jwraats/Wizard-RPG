@@ -33,8 +33,7 @@ public class LLMNarratorService : ILLMNarratorService
 
     public string GenerateTurnNarrative(string attackerName, string defenderName, string spellName, int damage)
     {
-        var rng = new Random();
-        var template = TurnTemplates[rng.Next(TurnTemplates.Length)];
+        var template = TurnTemplates[Random.Shared.Next(TurnTemplates.Length)];
         return template
             .Replace("{attacker}", attackerName)
             .Replace("{defender}", defenderName)
@@ -44,7 +43,7 @@ public class LLMNarratorService : ILLMNarratorService
 
     public string GenerateBattleStory(List<string> turnNarratives)
     {
-        var rng = new Random();
+        var rng = Random.Shared;
         var intro = BattleIntros[rng.Next(BattleIntros.Length)];
         var outro = BattleOutros[rng.Next(BattleOutros.Length)];
         var body = string.Join(" ", turnNarratives);
