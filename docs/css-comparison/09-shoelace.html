@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" class="sl-theme-dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wizard RPG – Shoelace (Web Components)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/dark.css">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
+  <style>
+    body { background: #1a1a2e; color: #e0e0e0; font-family: var(--sl-font-sans); margin: 0; padding: 0; }
+    nav { background: #16213e; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #2d2d5e; flex-wrap: wrap; gap: 0.5rem; }
+    nav a { color: #aaa; text-decoration: none; font-size: 0.9rem; margin: 0 0.5rem; }
+    nav a:hover { color: #f0a500; }
+    .text-gold { color: #f0a500; }
+    .hero { text-align: center; padding: 3rem 1rem; background: linear-gradient(to bottom, #16213e, #1a1a2e); }
+    .hero h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .hero p { color: #888; max-width: 600px; margin: 0 auto 1.5rem; }
+    .content { max-width: 900px; margin: 0 auto; padding: 1rem; }
+    h2 { margin: 2rem 0 1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    sl-card { --padding: 1rem; }
+    sl-card::part(body) { display: flex; flex-direction: column; gap: 0.5rem; }
+    .flex-row { display: flex; align-items: center; gap: 0.75rem; }
+    .avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .avatar-purple { background: #7c3aed; }
+    .avatar-blue { background: #0ea5e9; }
+    .avatar-green { background: #22c55e; }
+    .stat-label { font-size: 0.75rem; color: #888; margin-bottom: 0.15rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; font-size: 0.75rem; color: #888; text-transform: uppercase; padding: 0.5rem 0.75rem; border-bottom: 1px solid #2d2d5e; }
+    td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #1e1e3a; }
+    tr:hover { background: rgba(99,102,241,0.1); }
+    .form-section { max-width: 420px; margin: 2rem auto; }
+    footer { text-align: center; padding: 1.5rem; border-top: 1px solid #2d2d5e; color: #666; font-size: 0.85rem; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <strong class="text-gold" style="font-size:1.1rem">🧙 Wizard Academy RPG</strong>
+    <div style="display:flex;align-items:center;gap:0.5rem">
+      <a href="#">Dashboard</a>
+      <a href="#">Spells</a>
+      <a href="#">Battle</a>
+      <a href="#">Leaderboard</a>
+      <sl-badge variant="primary" pill>Level 12</sl-badge>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Welcome, Archmage!</h1>
+    <p>Master the arcane arts, duel rival wizards, brew powerful potions, and rise through the ranks of the Academy.</p>
+    <div style="display:flex;gap:0.75rem;justify-content:center">
+      <sl-button variant="primary" size="large">Start Duel</sl-button>
+      <sl-button variant="warning" outline size="large">Brew Potion</sl-button>
+    </div>
+  </section>
+
+  <div class="content">
+
+    <!-- Character Cards -->
+    <section>
+      <h2>Your Party</h2>
+      <div class="grid-3">
+        <sl-card>
+          <div class="flex-row">
+            <div class="avatar avatar-purple">🧙</div>
+            <div><strong>Eldrin the Wise</strong><br><small style="color:#888">Fire Mage · Lvl 12</small></div>
+          </div>
+          <div>
+            <p class="stat-label">HP</p>
+            <sl-progress-bar value="85" style="--height:6px;--indicator-color:var(--sl-color-success-600)"></sl-progress-bar>
+          </div>
+          <div>
+            <p class="stat-label">Mana</p>
+            <sl-progress-bar value="60" style="--height:6px;--indicator-color:var(--sl-color-primary-600)"></sl-progress-bar>
+          </div>
+          <div><sl-tag size="small" variant="danger">🔥 Fire</sl-tag> <sl-tag size="small" variant="warning">⚡ Lightning</sl-tag></div>
+        </sl-card>
+        <sl-card>
+          <div class="flex-row">
+            <div class="avatar avatar-blue">🧝</div>
+            <div><strong>Lyra Frostweaver</strong><br><small style="color:#888">Ice Sorceress · Lvl 10</small></div>
+          </div>
+          <div>
+            <p class="stat-label">HP</p>
+            <sl-progress-bar value="70" style="--height:6px;--indicator-color:var(--sl-color-success-600)"></sl-progress-bar>
+          </div>
+          <div>
+            <p class="stat-label">Mana</p>
+            <sl-progress-bar value="90" style="--height:6px;--indicator-color:var(--sl-color-primary-600)"></sl-progress-bar>
+          </div>
+          <div><sl-tag size="small" variant="primary">❄️ Ice</sl-tag> <sl-tag size="small" variant="neutral">✨ Arcane</sl-tag></div>
+        </sl-card>
+        <sl-card>
+          <div class="flex-row">
+            <div class="avatar avatar-green">🧌</div>
+            <div><strong>Thorin Earthshaker</strong><br><small style="color:#888">Earth Druid · Lvl 8</small></div>
+          </div>
+          <div>
+            <p class="stat-label">HP</p>
+            <sl-progress-bar value="95" style="--height:6px;--indicator-color:var(--sl-color-success-600)"></sl-progress-bar>
+          </div>
+          <div>
+            <p class="stat-label">Mana</p>
+            <sl-progress-bar value="40" style="--height:6px;--indicator-color:var(--sl-color-primary-600)"></sl-progress-bar>
+          </div>
+          <div><sl-tag size="small" variant="success">🌿 Earth</sl-tag> <sl-tag size="small" variant="warning">🛡️ Defense</sl-tag></div>
+        </sl-card>
+      </div>
+    </section>
+
+    <!-- Spell Table -->
+    <section>
+      <h2>Known Spells</h2>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Spell</th><th>Element</th><th>Power</th><th>Mana Cost</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>Fireball</td><td>🔥 Fire</td><td>45</td><td>30</td><td><sl-button size="small" variant="warning" outline>Cast</sl-button></td></tr>
+            <tr><td>Frost Nova</td><td>❄️ Ice</td><td>35</td><td>25</td><td><sl-button size="small" variant="warning" outline>Cast</sl-button></td></tr>
+            <tr><td>Lightning Bolt</td><td>⚡ Lightning</td><td>55</td><td>40</td><td><sl-button size="small" variant="warning" outline>Cast</sl-button></td></tr>
+            <tr><td>Earthquake</td><td>🌿 Earth</td><td>60</td><td>50</td><td><sl-button size="small" variant="warning" outline>Cast</sl-button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Login Form -->
+    <section class="form-section">
+      <h2 style="text-align:center">Sign In to Academy</h2>
+      <sl-card>
+        <form>
+          <div style="margin-bottom:1rem">
+            <sl-input label="Email" type="email" placeholder="wizard@academy.com"></sl-input>
+          </div>
+          <div style="margin-bottom:1rem">
+            <sl-input label="Password" type="password" placeholder="••••••••" password-toggle></sl-input>
+          </div>
+          <div style="margin-bottom:1rem">
+            <sl-checkbox>Remember me</sl-checkbox>
+          </div>
+          <sl-button variant="primary" style="width:100%" size="large">Enter the Academy</sl-button>
+        </form>
+      </sl-card>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Wizard Academy RPG · Styled with <strong>Shoelace</strong> · Framework-agnostic Web Components library</p>
+  </footer>
+
+</body>
+</html>

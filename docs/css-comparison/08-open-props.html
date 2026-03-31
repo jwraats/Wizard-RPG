@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wizard RPG – Open Props + Custom</title>
+  <link rel="stylesheet" href="https://unpkg.com/open-props">
+  <link rel="stylesheet" href="https://unpkg.com/open-props/normalize.dark.min.css">
+  <style>
+    body { background: var(--gray-9); color: var(--gray-1); max-width: 900px; margin: 0 auto; padding: 0 var(--size-3); font-family: var(--font-sans); }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: var(--size-3) 0; border-bottom: 1px solid var(--gray-7); flex-wrap: wrap; gap: var(--size-2); }
+    nav a { color: var(--gray-3); text-decoration: none; font-size: var(--font-size-0); transition: color 0.2s; }
+    nav a:hover { color: var(--yellow-4); }
+    .text-gold { color: var(--yellow-4); }
+    .badge { background: var(--indigo-7); color: var(--indigo-1); padding: var(--size-1) var(--size-3); border-radius: var(--radius-round); font-size: var(--font-size-00); }
+    .hero { text-align: center; padding: var(--size-9) var(--size-3); border-bottom: 1px solid var(--gray-7); }
+    .hero h1 { font-size: var(--font-size-6); font-weight: var(--font-weight-8); margin-bottom: var(--size-2); }
+    .hero p { color: var(--gray-4); max-width: 600px; margin: 0 auto var(--size-5); }
+    .btn { border: none; padding: var(--size-2) var(--size-5); border-radius: var(--radius-2); font-weight: var(--font-weight-6); cursor: pointer; transition: all 0.2s; font-size: var(--font-size-1); }
+    .btn-primary { background: var(--indigo-6); color: white; }
+    .btn-primary:hover { background: var(--indigo-5); }
+    .btn-outline { background: transparent; border: 2px solid var(--yellow-4); color: var(--yellow-4); }
+    .btn-outline:hover { background: var(--yellow-4); color: var(--gray-9); }
+    .btn-sm { padding: var(--size-1) var(--size-3); font-size: var(--font-size-00); }
+    .btn-group { display: flex; gap: var(--size-3); justify-content: center; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--size-4); }
+    .card { background: var(--gray-8); border: 1px solid var(--gray-7); border-radius: var(--radius-3); padding: var(--size-4); }
+    .flex-row { display: flex; align-items: center; gap: var(--size-3); margin-bottom: var(--size-3); }
+    .avatar { width: 48px; height: 48px; border-radius: var(--radius-round); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .avatar-purple { background: var(--violet-6); }
+    .avatar-blue { background: var(--blue-6); }
+    .avatar-green { background: var(--green-6); }
+    h2 { font-size: var(--font-size-4); margin: var(--size-6) 0 var(--size-4); }
+    .stat-label { font-size: var(--font-size-00); color: var(--gray-5); margin-bottom: var(--size-1); }
+    progress { width: 100%; height: 6px; border-radius: var(--radius-round); appearance: none; -webkit-appearance: none; background: var(--gray-7); margin-bottom: var(--size-2); }
+    progress::-webkit-progress-bar { background: var(--gray-7); border-radius: var(--radius-round); }
+    progress::-webkit-progress-value { border-radius: var(--radius-round); }
+    .tag { display: inline-block; padding: 2px var(--size-2); border-radius: var(--radius-1); font-size: var(--font-size-00); margin-right: var(--size-1); }
+    .tag-fire { background: var(--red-9); color: var(--red-3); }
+    .tag-ice { background: var(--cyan-9); color: var(--cyan-3); }
+    .tag-lightning { background: var(--yellow-9); color: var(--yellow-3); }
+    .tag-earth { background: var(--green-9); color: var(--green-3); }
+    .tag-arcane { background: var(--violet-9); color: var(--violet-3); }
+    .tag-defense { background: var(--orange-9); color: var(--orange-3); }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; font-size: var(--font-size-00); color: var(--gray-5); text-transform: uppercase; padding: var(--size-2) var(--size-3); border-bottom: 1px solid var(--gray-7); }
+    td { padding: var(--size-2) var(--size-3); border-bottom: 1px solid var(--gray-8); }
+    tr:hover { background: var(--gray-8); }
+    .form-section { max-width: 420px; margin: 0 auto; }
+    .form-group { margin-bottom: var(--size-3); }
+    .form-group label { display: block; font-size: var(--font-size-0); color: var(--gray-4); margin-bottom: var(--size-1); }
+    .form-group input { width: 100%; padding: var(--size-2); background: var(--gray-8); border: 1px solid var(--gray-6); border-radius: var(--radius-2); color: white; font-size: var(--font-size-1); box-sizing: border-box; }
+    .form-group input::placeholder { color: var(--gray-6); }
+    .form-group input:focus { outline: 2px solid var(--indigo-5); border-color: var(--indigo-5); }
+    .checkbox-row { display: flex; align-items: center; gap: var(--size-2); font-size: var(--font-size-0); color: var(--gray-4); margin-bottom: var(--size-4); }
+    footer { text-align: center; padding: var(--size-5) 0; border-top: 1px solid var(--gray-7); color: var(--gray-5); font-size: var(--font-size-0); margin-top: var(--size-7); }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <strong class="text-gold" style="font-size:var(--font-size-2)">🧙 Wizard Academy RPG</strong>
+    <div style="display:flex;align-items:center;gap:var(--size-3)">
+      <a href="#">Dashboard</a>
+      <a href="#">Spells</a>
+      <a href="#">Battle</a>
+      <a href="#">Leaderboard</a>
+      <span class="badge">Level 12</span>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Welcome, Archmage!</h1>
+    <p>Master the arcane arts, duel rival wizards, brew powerful potions, and rise through the ranks of the Academy.</p>
+    <div class="btn-group">
+      <button class="btn btn-primary">Start Duel</button>
+      <button class="btn btn-outline">Brew Potion</button>
+    </div>
+  </section>
+
+  <!-- Character Cards -->
+  <section>
+    <h2>Your Party</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="flex-row">
+          <div class="avatar avatar-purple">🧙</div>
+          <div><strong>Eldrin the Wise</strong><br><small style="color:var(--gray-5)">Fire Mage · Lvl 12</small></div>
+        </div>
+        <p class="stat-label">HP</p><progress value="85" max="100"></progress>
+        <p class="stat-label">Mana</p><progress value="60" max="100"></progress>
+        <div><span class="tag tag-fire">🔥 Fire</span><span class="tag tag-lightning">⚡ Lightning</span></div>
+      </div>
+      <div class="card">
+        <div class="flex-row">
+          <div class="avatar avatar-blue">🧝</div>
+          <div><strong>Lyra Frostweaver</strong><br><small style="color:var(--gray-5)">Ice Sorceress · Lvl 10</small></div>
+        </div>
+        <p class="stat-label">HP</p><progress value="70" max="100"></progress>
+        <p class="stat-label">Mana</p><progress value="90" max="100"></progress>
+        <div><span class="tag tag-ice">❄️ Ice</span><span class="tag tag-arcane">✨ Arcane</span></div>
+      </div>
+      <div class="card">
+        <div class="flex-row">
+          <div class="avatar avatar-green">🧌</div>
+          <div><strong>Thorin Earthshaker</strong><br><small style="color:var(--gray-5)">Earth Druid · Lvl 8</small></div>
+        </div>
+        <p class="stat-label">HP</p><progress value="95" max="100"></progress>
+        <p class="stat-label">Mana</p><progress value="40" max="100"></progress>
+        <div><span class="tag tag-earth">🌿 Earth</span><span class="tag tag-defense">🛡️ Defense</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spell Table -->
+  <section>
+    <h2>Known Spells</h2>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Spell</th><th>Element</th><th>Power</th><th>Mana Cost</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Fireball</td><td>🔥 Fire</td><td>45</td><td>30</td><td><button class="btn btn-outline btn-sm">Cast</button></td></tr>
+          <tr><td>Frost Nova</td><td>❄️ Ice</td><td>35</td><td>25</td><td><button class="btn btn-outline btn-sm">Cast</button></td></tr>
+          <tr><td>Lightning Bolt</td><td>⚡ Lightning</td><td>55</td><td>40</td><td><button class="btn btn-outline btn-sm">Cast</button></td></tr>
+          <tr><td>Earthquake</td><td>🌿 Earth</td><td>60</td><td>50</td><td><button class="btn btn-outline btn-sm">Cast</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Login Form -->
+  <section class="form-section">
+    <h2 style="text-align:center">Sign In to Academy</h2>
+    <div class="card">
+      <form>
+        <div class="form-group"><label>Email</label><input type="email" placeholder="wizard@academy.com"></div>
+        <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"></div>
+        <div class="checkbox-row"><input type="checkbox"> Remember me</div>
+        <button class="btn btn-primary" style="width:100%">Enter the Academy</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>Wizard Academy RPG · Styled with <strong>Open Props</strong> · Design tokens as CSS custom properties</p>
+  </footer>
+
+</body>
+</html>

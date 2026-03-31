@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wizard RPG – Sakura (Classless)</title>
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-dark.css">
+  <style>
+    body { max-width: 900px; }
+    .hero { text-align: center; padding: 2rem 0; border-bottom: 1px solid #444; }
+    .party-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+    .card { border: 1px solid #444; border-radius: 6px; padding: 1rem; background: #1e1e2e; }
+    .flex-row { display: flex; align-items: center; gap: 0.75rem; }
+    .avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .avatar-purple { background: #7c3aed; }
+    .avatar-blue { background: #0ea5e9; }
+    .avatar-green { background: #22c55e; }
+    .tag { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.75rem; margin-right: 0.25rem; }
+    .tag-fire { background: rgba(220,38,38,0.2); color: #fca5a5; }
+    .tag-ice { background: rgba(14,165,233,0.2); color: #7dd3fc; }
+    .tag-lightning { background: rgba(234,179,8,0.2); color: #fde68a; }
+    .tag-earth { background: rgba(34,197,94,0.2); color: #86efac; }
+    .tag-arcane { background: rgba(168,85,247,0.2); color: #d8b4fe; }
+    .tag-defense { background: rgba(245,158,11,0.2); color: #fcd34d; }
+    .btn-group { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; }
+    .btn-outline { background: transparent; border: 2px solid #f0a500; color: #f0a500; padding: 0.5rem 1.5rem; border-radius: 4px; cursor: pointer; }
+    .btn-outline:hover { background: #f0a500; color: #000; }
+    progress { width: 100%; height: 6px; margin: 0.25rem 0; }
+    small { opacity: 0.6; }
+    .form-section { max-width: 400px; margin: 2rem auto; }
+    footer { text-align: center; margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid #444; opacity: 0.7; font-size: 0.85rem; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #444; flex-wrap: wrap; gap: 0.5rem; }
+    nav a { margin: 0 0.5rem; text-decoration: none; font-size: 0.9rem; }
+    .text-gold { color: #f0a500; }
+    .badge { display: inline-block; background: #533483; color: #e0e0e0; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.75rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <strong class="text-gold">🧙 Wizard Academy RPG</strong>
+    <div>
+      <a href="#">Dashboard</a>
+      <a href="#">Spells</a>
+      <a href="#">Battle</a>
+      <a href="#">Leaderboard</a>
+      <span class="badge">Level 12</span>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Welcome, Archmage!</h1>
+    <p>Master the arcane arts, duel rival wizards, brew powerful potions, and rise through the ranks of the Academy.</p>
+    <div class="btn-group">
+      <button>Start Duel</button>
+      <button class="btn-outline">Brew Potion</button>
+    </div>
+  </section>
+
+  <!-- Character Cards -->
+  <section>
+    <h2>Your Party</h2>
+    <div class="party-grid">
+      <div class="card">
+        <div class="flex-row">
+          <div class="avatar avatar-purple">🧙</div>
+          <div><strong>Eldrin the Wise</strong><br><small>Fire Mage · Lvl 12</small></div>
+        </div>
+        <p><small>HP</small></p>
+        <progress value="85" max="100"></progress>
+        <p><small>Mana</small></p>
+        <progress value="60" max="100"></progress>
+        <div style="margin-top:0.5rem"><span class="tag tag-fire">🔥 Fire</span><span class="tag tag-lightning">⚡ Lightning</span></div>
+      </div>
+      <div class="card">
+        <div class="flex-row">
+          <div class="avatar avatar-blue">🧝</div>
+          <div><strong>Lyra Frostweaver</strong><br><small>Ice Sorceress · Lvl 10</small></div>
+        </div>
+        <p><small>HP</small></p>
+        <progress value="70" max="100"></progress>
+        <p><small>Mana</small></p>
+        <progress value="90" max="100"></progress>
+        <div style="margin-top:0.5rem"><span class="tag tag-ice">❄️ Ice</span><span class="tag tag-arcane">✨ Arcane</span></div>
+      </div>
+      <div class="card">
+        <div class="flex-row">
+          <div class="avatar avatar-green">🧌</div>
+          <div><strong>Thorin Earthshaker</strong><br><small>Earth Druid · Lvl 8</small></div>
+        </div>
+        <p><small>HP</small></p>
+        <progress value="95" max="100"></progress>
+        <p><small>Mana</small></p>
+        <progress value="40" max="100"></progress>
+        <div style="margin-top:0.5rem"><span class="tag tag-earth">🌿 Earth</span><span class="tag tag-defense">🛡️ Defense</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spell Table -->
+  <section>
+    <h2>Known Spells</h2>
+    <table>
+      <thead><tr><th>Spell</th><th>Element</th><th>Power</th><th>Mana Cost</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Fireball</td><td>🔥 Fire</td><td>45</td><td>30</td><td><button style="padding:0.2rem 0.5rem;font-size:0.8rem">Cast</button></td></tr>
+        <tr><td>Frost Nova</td><td>❄️ Ice</td><td>35</td><td>25</td><td><button style="padding:0.2rem 0.5rem;font-size:0.8rem">Cast</button></td></tr>
+        <tr><td>Lightning Bolt</td><td>⚡ Lightning</td><td>55</td><td>40</td><td><button style="padding:0.2rem 0.5rem;font-size:0.8rem">Cast</button></td></tr>
+        <tr><td>Earthquake</td><td>🌿 Earth</td><td>60</td><td>50</td><td><button style="padding:0.2rem 0.5rem;font-size:0.8rem">Cast</button></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Login Form -->
+  <section class="form-section">
+    <h2 style="text-align:center">Sign In to Academy</h2>
+    <div class="card">
+      <form>
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="wizard@academy.com">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••">
+        <label><input type="checkbox"> Remember me</label><br><br>
+        <button type="submit" style="width:100%">Enter the Academy</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>Wizard Academy RPG · Styled with <strong>Sakura CSS</strong> · A minimal classless CSS framework</p>
+  </footer>
+
+</body>
+</html>
