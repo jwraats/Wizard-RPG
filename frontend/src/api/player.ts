@@ -2,6 +2,7 @@ import api from './client'
 import type {
   PlayerProfileResponse,
   UpdateProfileRequest,
+  BattleStatsResponse,
 } from '../types'
 
 export const playerApi = {
@@ -16,4 +17,7 @@ export const playerApi = {
 
   getLeaderboard: (top = 10) =>
     api.get<PlayerProfileResponse[]>('/player/leaderboard', { params: { top } }),
+
+  getBattleStats: (playerId: string) =>
+    api.get<BattleStatsResponse>(`/player/battle-stats/${playerId}`),
 }
