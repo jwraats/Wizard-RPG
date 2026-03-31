@@ -60,6 +60,7 @@ builder.Services.AddScoped<IPotionBrewingService, PotionBrewingService>();
 builder.Services.AddScoped<IFellowshipService, FellowshipService>();
 builder.Services.AddScoped<IBattleService, BattleService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IDungeonCrawlerService, DungeonCrawlerService>();
 builder.Services.AddSingleton<ILLMNarratorService, PlaceholderNarratorService>();
 
 // SignalR

@@ -25,4 +25,5 @@ public class Player
     public ICollection<FellowshipMember> FellowshipMemberships { get; set; } = new List<FellowshipMember>();
     public ICollection<BrewAttempt> BrewAttempts { get; set; } = new List<BrewAttempt>();
     public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
+    public ICollection<DungeonRun> DungeonRuns { get; set; } = new List<DungeonRun>();
 }

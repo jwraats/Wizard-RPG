@@ -25,6 +25,7 @@ public class AppDbContext : DbContext
     public DbSet<BrewAttempt> BrewAttempts => Set<BrewAttempt>();
     public DbSet<QuizQuestion> QuizQuestions => Set<QuizQuestion>();
     public DbSet<QuizAttempt> QuizAttempts => Set<QuizAttempt>();
+    public DbSet<DungeonRun> DungeonRuns => Set<DungeonRun>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -207,6 +208,17 @@ public class AppDbContext : DbContext
              .WithMany(p => p.QuizAttempts)
              .HasForeignKey(a => a.PlayerId)
              .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<DungeonRun>(e =>
+        {
+            e.HasKey(r => r.Id);
+            e.HasOne(r => r.Player)
+             .WithMany(p => p.DungeonRuns)
+             .HasForeignKey(r => r.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.Property(r => r.GoldCollected).HasDefaultValue(0L);
+            e.Property(r => r.CurrentFloor).HasDefaultValue(1);
         });
     }
 }
