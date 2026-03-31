@@ -334,7 +334,7 @@ This document outlines improvement ideas for the Wizard School RPG, organized as
   - Day 3: 50 gold
   - Day 5: Random item
   - Day 7: Rare item + 200 gold
-  - Day 14: Exclusive monthly item
+  - Day 14: Exclusive bi-weekly item
   - Day 30: Legendary reward
 - Streak resets if a day is missed (or give 1-day grace period)
 - Visual calendar showing progress and upcoming rewards
