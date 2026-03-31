@@ -3,6 +3,7 @@ import { onMounted } from 'vue'
 import { usePlayerStore } from '../stores/player'
 import { useBankStore } from '../stores/bank'
 import { useAuthStore } from '../stores/auth'
+import TrailerSection from '../components/TrailerSection.vue'
 
 const auth = useAuthStore()
 const playerStore = usePlayerStore()
@@ -16,6 +17,8 @@ onMounted(async () => {
 <template>
   <div data-testid="dashboard-view">
     <h1 class="text-3xl font-bold text-indigo-900 mb-6">🏰 Dashboard</h1>
+
+    <TrailerSection />
 
     <div v-if="playerStore.loading" class="text-center py-12 text-gray-500">Loading…</div>
 
