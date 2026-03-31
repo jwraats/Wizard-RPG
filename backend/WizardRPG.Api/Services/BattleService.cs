@@ -124,7 +124,7 @@ public class BattleService : IBattleService
             ?? throw new KeyNotFoundException("Spell not found.");
 
         var damage = CalculateDamage(attacker, spell);
-        var narrative = _narrator.GenerateTurnNarrative(attacker.Username, defender.Username, spell.Name, damage);
+        var narrative = await _narrator.GenerateTurnNarrativeAsync(attacker.Username, defender.Username, spell.Name, damage);
 
         var turn = new BattleTurn
         {
@@ -166,7 +166,7 @@ public class BattleService : IBattleService
                 winner.GoldCoins += 50;
             }
 
-            battle.NarratorStory = _narrator.GenerateBattleStory(
+            battle.NarratorStory = await _narrator.GenerateBattleStoryAsync(
                 battle.Turns.Select(t => t.Narrative ?? string.Empty).ToList());
         }
 

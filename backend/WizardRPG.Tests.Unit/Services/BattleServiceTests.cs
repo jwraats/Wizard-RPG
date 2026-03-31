@@ -46,10 +46,10 @@ public class BattleServiceTests
     private static Mock<ILLMNarratorService> CreateNarratorMock()
     {
         var mock = new Mock<ILLMNarratorService>();
-        mock.Setup(n => n.GenerateTurnNarrative(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
-            .Returns("A fierce spell was cast!");
-        mock.Setup(n => n.GenerateBattleStory(It.IsAny<List<string>>()))
-            .Returns("An epic battle concluded.");
+        mock.Setup(n => n.GenerateTurnNarrativeAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+            .ReturnsAsync("A fierce spell was cast!");
+        mock.Setup(n => n.GenerateBattleStoryAsync(It.IsAny<List<string>>()))
+            .ReturnsAsync("An epic battle concluded.");
         return mock;
     }
 

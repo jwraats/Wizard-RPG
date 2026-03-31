@@ -58,7 +58,7 @@ builder.Services.AddScoped<IBroomGameService, BroomGameService>();
 builder.Services.AddScoped<IFellowshipService, FellowshipService>();
 builder.Services.AddScoped<IBattleService, BattleService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddSingleton<ILLMNarratorService, LLMNarratorService>();
+builder.Services.AddSingleton<ILLMNarratorService, PlaceholderNarratorService>();
 
 // SignalR
 builder.Services.AddSignalR();
