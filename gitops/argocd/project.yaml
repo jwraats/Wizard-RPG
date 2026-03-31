@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: wizard-rpg
+  namespace: argocd
+spec:
+  description: "Wizard-RPG project"
+  sourceRepos:
+    - "https://github.com/jwraats/Wizard-RPG.git"
+  destinations:
+    - namespace: wizard-rpg
+      server: "https://kubernetes.default.svc"
+    - namespace: cnpg-system
+      server: "https://kubernetes.default.svc"
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: "*"
+    - group: apps
+      kind: "*"
+    - group: networking.k8s.io
+      kind: "*"
+    - group: postgresql.cnpg.io
+      kind: "*"

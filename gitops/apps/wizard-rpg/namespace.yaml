@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wizard-rpg
+  labels:
+    app.kubernetes.io/part-of: wizard-rpg
+    app.kubernetes.io/managed-by: argocd
