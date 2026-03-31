@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broom Racing League — Wireframe</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #1a1a2e; color: #e0e0e0; min-height: 100vh; }
+        .nav { background: #0f3460; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav a { color: #f0c040; text-decoration: none; font-size: 0.9rem; }
+        .nav h3 { color: #e0e0e0; font-size: 0.95rem; }
+        .game-container { max-width: 800px; margin: 1rem auto; padding: 0 1rem; }
+        .page-title { text-align: center; padding: 1rem; color: #f0c040; font-size: 1.4rem; }
+
+        .race-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1rem;
+        }
+        .race-info .ri-stat { text-align: center; }
+        .race-info .ri-label { font-size: 0.7rem; color: #a0a0c0; }
+        .race-info .ri-value { font-size: 1.1rem; font-weight: bold; color: #f0c040; }
+
+        .panel {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .panel h3 { color: #f0c040; margin-bottom: 0.8rem; font-size: 0.95rem; }
+
+        .rider-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .rider-table th {
+            text-align: left;
+            font-size: 0.75rem;
+            color: #a0a0c0;
+            padding: 0.4rem 0.5rem;
+            border-bottom: 1px solid #0f3460;
+        }
+        .rider-table td {
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #0a0a1a;
+        }
+        .rider-table tr:hover { background: #0f3460; }
+        .rider-name { font-weight: bold; }
+        .odds { color: #f0c040; font-weight: bold; }
+        .stat-mini {
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+        }
+        .bet-btn {
+            padding: 0.3rem 0.8rem;
+            background: #e94560;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .bet-btn:hover { filter: brightness(1.1); }
+        .bet-btn.selected { background: #22c55e; }
+
+        .betting-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .bet-type {
+            background: #0f3460;
+            border: 2px solid #1a4a8a;
+            border-radius: 8px;
+            padding: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .bet-type:hover { border-color: #f0c040; }
+        .bet-type.active { border-color: #f0c040; }
+        .bet-type .bet-name { font-weight: bold; font-size: 0.9rem; margin-bottom: 0.2rem; }
+        .bet-type .bet-desc { font-size: 0.75rem; color: #a0a0c0; }
+        .bet-type .bet-multi { color: #22c55e; font-size: 0.85rem; margin-top: 0.3rem; }
+
+        .wager-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .wager-input {
+            background: #0a0a1a;
+            border: 2px solid #1a4a8a;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: #f0c040;
+            font-size: 1.1rem;
+            width: 120px;
+            text-align: center;
+        }
+        .place-bet-btn {
+            padding: 0.6rem 2rem;
+            background: linear-gradient(135deg, #e94560, #c0392b);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .place-bet-btn:hover { filter: brightness(1.1); }
+
+        .race-feed {
+            background: #0a0a1a;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        .race-feed h3 { color: #f0c040; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .feed-entry {
+            font-size: 0.85rem;
+            padding: 4px 0;
+            line-height: 1.4;
+            border-bottom: 1px solid #16213e;
+        }
+        .feed-entry .time { color: #606080; font-size: 0.75rem; }
+        .feed-entry .highlight { color: #f0c040; }
+        .feed-entry .action { color: #e94560; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">← Back to Games</a>
+        <h3>🏇 Broom Racing League</h3>
+        <span style="color:#606080; font-size:0.8rem;">WIREFRAME</span>
+    </div>
+
+    <div class="game-container">
+        <div class="page-title">🏇 Broom Racing League</div>
+
+        <div class="race-info">
+            <div class="ri-stat">
+                <div class="ri-label">Race</div>
+                <div class="ri-value">Grand Cup #7</div>
+            </div>
+            <div class="ri-stat">
+                <div class="ri-label">Status</div>
+                <div class="ri-value" style="color:#fbbf24;">🟡 Betting Open</div>
+            </div>
+            <div class="ri-stat">
+                <div class="ri-label">Starts In</div>
+                <div class="ri-value" style="color:#e94560;">2:34</div>
+            </div>
+            <div class="ri-stat">
+                <div class="ri-label">Your Gold</div>
+                <div class="ri-value">🪙 1,250</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>🏁 Riders & Odds</h3>
+            <table class="rider-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Rider</th>
+                        <th>Broom</th>
+                        <th>SPD</th>
+                        <th>AGI</th>
+                        <th>Odds</th>
+                        <th>Bet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="rider-name">⚡ Zara Swift</td>
+                        <td>Thunderbolt X</td>
+                        <td class="stat-mini">92</td>
+                        <td class="stat-mini">85</td>
+                        <td class="odds">2.1x</td>
+                        <td><button class="bet-btn selected">✓ Bet</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="rider-name">🌙 Nox Shadow</td>
+                        <td>Nightwind 3000</td>
+                        <td class="stat-mini">88</td>
+                        <td class="stat-mini">91</td>
+                        <td class="odds">3.5x</td>
+                        <td><button class="bet-btn">Bet</button></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="rider-name">🔥 Blaze Fury</td>
+                        <td>Firestorm Pro</td>
+                        <td class="stat-mini">95</td>
+                        <td class="stat-mini">72</td>
+                        <td class="odds">4.0x</td>
+                        <td><button class="bet-btn">Bet</button></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="rider-name">💨 Aria Gale</td>
+                        <td>Zephyr Mk II</td>
+                        <td class="stat-mini">80</td>
+                        <td class="stat-mini">88</td>
+                        <td class="odds">5.5x</td>
+                        <td><button class="bet-btn">Bet</button></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td class="rider-name">🌟 Sol Beacon</td>
+                        <td>Starlight 500</td>
+                        <td class="stat-mini">78</td>
+                        <td class="stat-mini">82</td>
+                        <td class="odds">8.0x</td>
+                        <td><button class="bet-btn">Bet</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel">
+            <h3>🎲 Bet Type</h3>
+            <div class="betting-panel">
+                <div class="bet-type active">
+                    <div class="bet-name">🏆 Winner</div>
+                    <div class="bet-desc">Pick the race winner</div>
+                    <div class="bet-multi">Payout: 2.1x</div>
+                </div>
+                <div class="bet-type">
+                    <div class="bet-name">🥇🥈🥉 Top 3</div>
+                    <div class="bet-desc">Pick a top-3 finisher</div>
+                    <div class="bet-multi">Payout: 1.3x</div>
+                </div>
+                <div class="bet-type">
+                    <div class="bet-name">📋 Exact Order</div>
+                    <div class="bet-desc">Predict full finish order</div>
+                    <div class="bet-multi">Payout: 25x</div>
+                </div>
+                <div class="bet-type">
+                    <div class="bet-name">⚡ Fastest Lap</div>
+                    <div class="bet-desc">Who gets fastest lap?</div>
+                    <div class="bet-multi">Payout: 3.5x</div>
+                </div>
+            </div>
+            <div class="wager-row">
+                <span>Wager:</span>
+                <input class="wager-input" type="text" value="100" /> 
+                <span>🪙 gold</span>
+                <button class="place-bet-btn">🎰 Place Bet</button>
+            </div>
+        </div>
+
+        <div class="race-feed">
+            <h3>📡 Live Race Feed</h3>
+            <div class="feed-entry"><span class="time">[--:--]</span> Race has not started yet. Place your bets!</div>
+            <div class="feed-entry"><span class="time">[prev]</span> <span class="highlight">Race #6 Result:</span> 🥇 Nox Shadow · 🥈 Blaze Fury · 🥉 Zara Swift</div>
+            <div class="feed-entry"><span class="time">[prev]</span> <span class="action">You won 350 gold</span> on Race #6 (Top 3 bet on Nox Shadow)</div>
+        </div>
+    </div>
+</body>
+</html>

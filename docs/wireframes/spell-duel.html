@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spell Duel Arena — Wireframe</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #1a1a2e; color: #e0e0e0; min-height: 100vh; }
+        .nav { background: #0f3460; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav a { color: #f0c040; text-decoration: none; font-size: 0.9rem; }
+        .nav h3 { color: #e0e0e0; font-size: 0.95rem; }
+        .game-container { max-width: 800px; margin: 1rem auto; padding: 0 1rem; }
+        .duel-header { text-align: center; padding: 1rem; color: #f0c040; font-size: 1.4rem; }
+
+        .arena {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .player-panel {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        .player-panel.enemy { border-color: #e94560; }
+        .player-panel h3 { color: #f0c040; margin-bottom: 0.5rem; font-size: 1rem; }
+        .player-panel .name { font-size: 1.1rem; margin-bottom: 0.8rem; }
+
+        .stat-bar {
+            margin-bottom: 0.5rem;
+        }
+        .stat-bar label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 2px;
+            color: #a0a0c0;
+        }
+        .bar-track {
+            height: 14px;
+            background: #0a0a1a;
+            border-radius: 7px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 7px;
+            transition: width 0.5s;
+        }
+        .bar-fill.hp { background: linear-gradient(90deg, #e94560, #ff6b6b); }
+        .bar-fill.mp { background: linear-gradient(90deg, #3a86ff, #60a5fa); }
+
+        .vs-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #e94560;
+            font-weight: bold;
+        }
+
+        .spellbook {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .spellbook h3 { color: #f0c040; margin-bottom: 0.8rem; }
+        .spell-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        .spell-btn {
+            background: #0f3460;
+            border: 2px solid #1a4a8a;
+            border-radius: 8px;
+            padding: 0.7rem;
+            color: #e0e0e0;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .spell-btn:hover { border-color: #f0c040; background: #1a4a8a; }
+        .spell-btn.selected { border-color: #f0c040; background: #1a4a8a; }
+        .spell-btn .spell-name { font-weight: bold; font-size: 0.95rem; }
+        .spell-btn .spell-info { font-size: 0.75rem; color: #a0a0c0; margin-top: 2px; }
+        .spell-btn .spell-element { font-size: 0.7rem; margin-top: 2px; }
+        .spell-btn .spell-element.fire { color: #ff6b6b; }
+        .spell-btn .spell-element.ice { color: #60a5fa; }
+        .spell-btn .spell-element.lightning { color: #fbbf24; }
+        .spell-btn .spell-element.arcane { color: #c084fc; }
+
+        .action-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .cast-btn {
+            flex: 1;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #e94560, #c0392b);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .cast-btn:hover { filter: brightness(1.1); }
+        .defend-btn {
+            padding: 0.8rem 1.5rem;
+            background: #0f3460;
+            border: 2px solid #3a86ff;
+            border-radius: 8px;
+            color: #3a86ff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .battle-log {
+            background: #0a0a1a;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .battle-log h3 { color: #f0c040; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .log-entry {
+            font-size: 0.85rem;
+            padding: 3px 0;
+            border-bottom: 1px solid #16213e;
+            line-height: 1.4;
+        }
+        .log-entry .turn { color: #606080; }
+        .log-entry .damage { color: #e94560; }
+        .log-entry .heal { color: #22c55e; }
+        .log-entry .info { color: #a0a0c0; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">← Back to Games</a>
+        <h3>⚔️ Spell Duel Arena</h3>
+        <span style="color:#606080; font-size:0.8rem;">WIREFRAME</span>
+    </div>
+
+    <div class="game-container">
+        <div class="duel-header">⚡ Spell Duel — Round 3 ⚡</div>
+
+        <div class="arena">
+            <div class="player-panel">
+                <h3>🧙 You</h3>
+                <div class="name">Aldric the Wise</div>
+                <div class="stat-bar">
+                    <label><span>❤️ HP</span><span>72 / 100</span></label>
+                    <div class="bar-track"><div class="bar-fill hp" style="width:72%"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <label><span>💎 Mana</span><span>45 / 80</span></label>
+                    <div class="bar-track"><div class="bar-fill mp" style="width:56%"></div></div>
+                </div>
+            </div>
+
+            <div class="vs-badge">VS</div>
+
+            <div class="player-panel enemy">
+                <h3>💀 Opponent</h3>
+                <div class="name">Dark Mage Zorath</div>
+                <div class="stat-bar">
+                    <label><span>❤️ HP</span><span>58 / 100</span></label>
+                    <div class="bar-track"><div class="bar-fill hp" style="width:58%"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <label><span>💎 Mana</span><span>30 / 70</span></label>
+                    <div class="bar-track"><div class="bar-fill mp" style="width:43%"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="spellbook">
+            <h3>📖 Your Spellbook — Choose a Spell</h3>
+            <div class="spell-grid">
+                <button class="spell-btn selected" onclick="selectSpell(this)">
+                    <div class="spell-name">🔥 Fireball</div>
+                    <div class="spell-info">18-25 damage · 15 mana</div>
+                    <div class="spell-element fire">Element: Fire</div>
+                </button>
+                <button class="spell-btn" onclick="selectSpell(this)">
+                    <div class="spell-name">❄️ Frost Nova</div>
+                    <div class="spell-info">12-18 damage · 10 mana</div>
+                    <div class="spell-element ice">Element: Ice</div>
+                </button>
+                <button class="spell-btn" onclick="selectSpell(this)">
+                    <div class="spell-name">⚡ Chain Lightning</div>
+                    <div class="spell-info">22-30 damage · 20 mana</div>
+                    <div class="spell-element lightning">Element: Lightning</div>
+                </button>
+                <button class="spell-btn" onclick="selectSpell(this)">
+                    <div class="spell-name">🔮 Arcane Missile</div>
+                    <div class="spell-info">10-15 damage · 8 mana</div>
+                    <div class="spell-element arcane">Element: Arcane</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <button class="cast-btn">⚡ Cast Spell</button>
+            <button class="defend-btn">🛡️ Defend</button>
+        </div>
+
+        <div class="battle-log">
+            <h3>📜 Battle Log</h3>
+            <div class="log-entry"><span class="turn">[Round 2]</span> <span class="info">You cast</span> <span class="damage">Fireball</span> <span class="info">→ 22 damage to Zorath!</span></div>
+            <div class="log-entry"><span class="turn">[Round 2]</span> <span class="info">Zorath cast</span> <span class="damage">Shadow Bolt</span> <span class="info">→ 15 damage to you.</span></div>
+            <div class="log-entry"><span class="turn">[Round 1]</span> <span class="info">You cast</span> <span class="damage">Chain Lightning</span> <span class="info">→ 20 damage to Zorath! ⚡ Super effective!</span></div>
+            <div class="log-entry"><span class="turn">[Round 1]</span> <span class="info">Zorath cast</span> <span class="damage">Ice Shard</span> <span class="info">→ 13 damage to you.</span></div>
+        </div>
+    </div>
+
+    <script>
+        function selectSpell(btn) {
+            document.querySelectorAll('.spell-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+    </script>
+</body>
+</html>
