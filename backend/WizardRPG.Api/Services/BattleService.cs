@@ -19,11 +19,25 @@ public class BattleService : IBattleService
 {
     private readonly AppDbContext _db;
     private readonly ILLMNarratorService _narrator;
+    private readonly IEquipmentService _equipmentService;
+    private readonly INotificationService _notificationService;
+    private readonly IQuestService _questService;
+    private readonly IAchievementService _achievementService;
 
-    public BattleService(AppDbContext db, ILLMNarratorService narrator)
+    public BattleService(
+        AppDbContext db,
+        ILLMNarratorService narrator,
+        IEquipmentService equipmentService,
+        INotificationService notificationService,
+        IQuestService questService,
+        IAchievementService achievementService)
     {
         _db = db;
         _narrator = narrator;
+        _equipmentService = equipmentService;
+        _notificationService = notificationService;
+        _questService = questService;
+        _achievementService = achievementService;
     }
 
     public async Task<List<SpellResponse>> GetSpellsAsync()
@@ -123,7 +137,7 @@ public class BattleService : IBattleService
         var spell = await _db.Spells.FindAsync(spellId)
             ?? throw new KeyNotFoundException("Spell not found.");
 
-        var damage = CalculateDamage(attacker, spell);
+        var damage = await CalculateDamageWithEquipmentAsync(attacker, spell);
         var narrative = await _narrator.GenerateTurnNarrativeAsync(attacker.Username, defender.Username, spell.Name, damage);
 
         var turn = new BattleTurn
@@ -158,13 +172,56 @@ public class BattleService : IBattleService
                 ? battle.ChallengerId
                 : battle.DefenderId;
 
-            // Reward experience
+            var loserId = battle.WinnerId == battle.ChallengerId
+                ? battle.DefenderId
+                : battle.ChallengerId;
+
+            // Reward experience and gold
             var winner = await _db.Players.FindAsync(battle.WinnerId);
+            var loser = await _db.Players.FindAsync(loserId);
             if (winner != null)
             {
                 winner.Experience += 100;
                 winner.GoldCoins += 50;
             }
+
+            // ELO rating changes
+            if (winner != null && loser != null)
+            {
+                var (winnerChange, loserChange) = CalculateEloChange(winner.EloRating, loser.EloRating);
+                winner.EloRating = Math.Max(0, winner.EloRating + winnerChange);
+                loser.EloRating = Math.Max(0, loser.EloRating + loserChange);
+            }
+
+            // Award house points for PvP win
+            if (winner != null && !string.IsNullOrWhiteSpace(winner.House))
+            {
+                _db.HousePoints.Add(new HousePoints
+                {
+                    PlayerId = winner.Id,
+                    House = winner.House,
+                    Points = 10,
+                    Activity = "PvP Win"
+                });
+            }
+
+            // Update quest progress
+            if (winner != null)
+                await _questService.UpdateQuestProgressAsync(winner.Id, "battle_win");
+
+            // Check achievements for both players
+            if (winner != null)
+                await _achievementService.CheckAndAwardAchievementsAsync(winner.Id);
+            if (loser != null)
+                await _achievementService.CheckAndAwardAchievementsAsync(loser.Id);
+
+            // Notifications
+            if (winner != null)
+                await _notificationService.CreateNotificationAsync(winner.Id,
+                    "Battle Won!", "You won a PvP battle and earned 50 gold and 100 XP!", "battle_result");
+            if (loser != null)
+                await _notificationService.CreateNotificationAsync(loser.Id,
+                    "Battle Lost", "You lost a PvP battle. Better luck next time!", "battle_result");
 
             battle.NarratorStory = await _narrator.GenerateBattleStoryAsync(
                 battle.Turns.Select(t => t.Narrative ?? string.Empty).ToList());
@@ -176,18 +233,41 @@ public class BattleService : IBattleService
 
     private static int CalculateDamage(Player attacker, Spell spell)
     {
+        return CalculateDamageWithBonuses(attacker, spell, 0, 0, 0, 0);
+    }
+
+    private async Task<int> CalculateDamageWithEquipmentAsync(Player attacker, Spell spell)
+    {
+        var (magicBonus, strengthBonus, wisdomBonus, speedBonus) =
+            await _equipmentService.GetEquipmentBonusesAsync(attacker.Id);
+        return CalculateDamageWithBonuses(attacker, spell, magicBonus, strengthBonus, wisdomBonus, speedBonus);
+    }
+
+    private static int CalculateDamageWithBonuses(Player attacker, Spell spell,
+        int magicBonus, int strengthBonus, int wisdomBonus, int speedBonus)
+    {
         var statBonus = spell.Element switch
         {
-            SpellElement.Fire or SpellElement.Arcane => attacker.MagicPower,
-            SpellElement.Ice => attacker.Wisdom,
-            SpellElement.Lightning => attacker.Speed,
-            SpellElement.Earth => attacker.Strength,
-            _ => attacker.MagicPower
+            SpellElement.Fire or SpellElement.Arcane => attacker.MagicPower + magicBonus,
+            SpellElement.Ice => attacker.Wisdom + wisdomBonus,
+            SpellElement.Lightning => attacker.Speed + speedBonus,
+            SpellElement.Earth => attacker.Strength + strengthBonus,
+            _ => attacker.MagicPower + magicBonus
         };
 
         var damage = spell.BaseDamage + (statBonus / 5);
         var variance = Random.Shared.Next(-5, 6);
         return Math.Max(1, damage + variance);
+    }
+
+    private static (int winnerChange, int loserChange) CalculateEloChange(int winnerRating, int loserRating)
+    {
+        const int k = 32;
+        double expectedWinner = 1.0 / (1.0 + Math.Pow(10.0, (loserRating - winnerRating) / 400.0));
+        double expectedLoser = 1.0 / (1.0 + Math.Pow(10.0, (winnerRating - loserRating) / 400.0));
+        int winnerChange = (int)Math.Round(k * (1.0 - expectedWinner));
+        int loserChange = (int)Math.Round(k * (0.0 - expectedLoser));
+        return (winnerChange, loserChange);
     }
 
     private async Task<Battle?> LoadBattleAsync(Guid battleId) =>

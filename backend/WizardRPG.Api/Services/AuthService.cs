@@ -20,13 +20,20 @@ public interface IAuthService
 
 public class AuthService : IAuthService
 {
+    private static readonly HashSet<string> ValidHouses = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Pyromancers", "Frostwardens", "Stormcallers", "Earthshapers"
+    };
+
     private readonly AppDbContext _db;
     private readonly IConfiguration _config;
+    private readonly INotificationService _notificationService;
 
-    public AuthService(AppDbContext db, IConfiguration config)
+    public AuthService(AppDbContext db, IConfiguration config, INotificationService notificationService)
     {
         _db = db;
         _config = config;
+        _notificationService = notificationService;
     }
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
@@ -37,6 +44,11 @@ public class AuthService : IAuthService
         if (await _db.Players.AnyAsync(p => p.Username == request.Username))
             throw new InvalidOperationException("Username already taken.");
 
+        // Validate and set house
+        var house = string.Empty;
+        if (!string.IsNullOrWhiteSpace(request.House) && ValidHouses.Contains(request.House))
+            house = request.House;
+
         var player = new Player
         {
             Id = Guid.NewGuid(),
@@ -45,7 +57,8 @@ public class AuthService : IAuthService
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
             ReferralCode = GenerateReferralCode(),
             CreatedAt = DateTime.UtcNow,
-            GoldCoins = 100
+            GoldCoins = 100,
+            House = house
         };
 
         _db.Players.Add(player);
@@ -53,19 +66,53 @@ public class AuthService : IAuthService
         var bankAccount = new BankAccount { PlayerId = player.Id };
         _db.BankAccounts.Add(bankAccount);
 
-        // Handle referral
+        // Handle referral code
         if (!string.IsNullOrWhiteSpace(request.ReferralCode))
         {
-            var fellowship = await _db.Fellowships
-                .FirstOrDefaultAsync(f => f.ReferralCode == request.ReferralCode);
-            if (fellowship != null)
+            // Check player referral first
+            var referrer = await _db.Players
+                .FirstOrDefaultAsync(p => p.ReferralCode == request.ReferralCode);
+            if (referrer != null)
             {
-                _db.FellowshipMembers.Add(new FellowshipMember
+                player.ReferredByPlayerId = referrer.Id;
+                player.GoldCoins += 50; // Bonus gold for referred player
+                referrer.GoldCoins += 100; // Bonus gold for referrer
+                referrer.ReferralCount++;
+
+                // Award house points to referrer
+                if (!string.IsNullOrWhiteSpace(referrer.House))
                 {
-                    FellowshipId = fellowship.Id,
-                    PlayerId = player.Id,
-                    ContributionPercent = 0
-                });
+                    _db.HousePoints.Add(new HousePoints
+                    {
+                        PlayerId = referrer.Id,
+                        House = referrer.House,
+                        Points = 20,
+                        Activity = "Referral"
+                    });
+                }
+
+                // Save first so notification can reference valid player
+                await _db.SaveChangesAsync();
+
+                await _notificationService.CreateNotificationAsync(referrer.Id,
+                    "New Referral!",
+                    $"{player.Username} joined using your referral code! You earned 100 bonus gold.",
+                    "referral");
+            }
+            else
+            {
+                // Check fellowship referral
+                var fellowship = await _db.Fellowships
+                    .FirstOrDefaultAsync(f => f.ReferralCode == request.ReferralCode);
+                if (fellowship != null)
+                {
+                    _db.FellowshipMembers.Add(new FellowshipMember
+                    {
+                        FellowshipId = fellowship.Id,
+                        PlayerId = player.Id,
+                        ContributionPercent = 0
+                    });
+                }
             }
         }
 
