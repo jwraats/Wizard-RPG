@@ -35,7 +35,7 @@ For pixel-art or retro variants, replace the suffix with:
 
 ## Player Character Archetypes
 
-The game has no fixed main character — players create their own wizard. Below are four archetypes that represent different play styles and can serve as promotional art and default avatars.
+The game has no fixed main character — players create their own wizard. Below are five archetypes that represent different play styles and can serve as promotional art and default avatars.
 
 ### 1. The Flame Scholar
 
@@ -216,7 +216,7 @@ Full-body illustration of a massive enchanted suit of dark iron armor standing i
 
 ## Wands
 
-Each wand is tied to one of the five spell elements. Wands provide stat bonuses (primarily Magic Power) as in-game items.
+Each wand is tied to one of the five spell elements.
 
 ### Emberheart Wand (Fire)
 
