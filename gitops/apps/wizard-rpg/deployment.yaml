@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wizard-rpg
+  namespace: wizard-rpg
+  labels:
+    app.kubernetes.io/name: wizard-rpg
+    app.kubernetes.io/part-of: wizard-rpg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wizard-rpg
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wizard-rpg
+        app.kubernetes.io/part-of: wizard-rpg
+    spec:
+      containers:
+        - name: wizard-rpg
+          # Update this image reference once the Docker image is built and pushed.
+          image: ghcr.io/jwraats/wizard-rpg:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: wizard-rpg-config
+            - secretRef:
+                name: wizard-rpg-secret
+          env:
+            # Database credentials from the CloudNativePG-generated secret
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: wizard-rpg-db-app
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wizard-rpg-db-app
+                  key: password
+            - name: DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: wizard-rpg-db-app
+                  key: uri
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+      # Uncomment if using a private container registry
+      # imagePullSecrets:
+      #   - name: ghcr-pull-secret

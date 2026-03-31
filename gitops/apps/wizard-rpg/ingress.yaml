@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wizard-rpg
+  namespace: wizard-rpg
+  labels:
+    app.kubernetes.io/name: wizard-rpg
+    app.kubernetes.io/part-of: wizard-rpg
+  annotations:
+    # Traefik is the default ingress controller on k3s
+    kubernetes.io/ingress.class: traefik
+    # Uncomment below to enable TLS via cert-manager
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+    - host: wizard-rpg.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wizard-rpg
+                port:
+                  name: http
+  # Uncomment to enable TLS
+  # tls:
+  #   - hosts:
+  #       - wizard-rpg.local
+  #     secretName: wizard-rpg-tls

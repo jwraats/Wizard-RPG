@@ -1,0 +1,27 @@
+# CloudNativePG Operator Installation
+#
+# This HelmChart resource uses the k3s built-in Helm controller to install
+# the CloudNativePG operator. On k3s, HelmChart resources in the
+# kube-system namespace are automatically processed by the Helm controller.
+#
+# If you are NOT using k3s's built-in Helm controller, install the operator
+# manually with:
+#   helm repo add cnpg https://cloudnative-pg.github.io/charts
+#   helm upgrade --install cnpg cnpg/cloudnative-pg \
+#     --namespace cnpg-system --create-namespace \
+#     --version 0.21.2
+#
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: cnpg
+  namespace: kube-system
+spec:
+  repo: https://cloudnative-pg.github.io/charts
+  chart: cloudnative-pg
+  version: "0.21.2"
+  targetNamespace: cnpg-system
+  createNamespace: true
+  valuesContent: |-
+    monitoring:
+      podMonitorEnabled: false

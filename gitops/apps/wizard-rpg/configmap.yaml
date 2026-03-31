@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wizard-rpg-config
+  namespace: wizard-rpg
+  labels:
+    app.kubernetes.io/name: wizard-rpg
+    app.kubernetes.io/part-of: wizard-rpg
+data:
+  # Application configuration
+  APP_PORT: "8080"
+  APP_ENV: "production"
+  LOG_LEVEL: "info"
+
+  # Database connection (host resolved via CloudNativePG service)
+  DB_HOST: "wizard-rpg-db-rw"
+  DB_PORT: "5432"
+  DB_NAME: "wizard_rpg"

@@ -1,0 +1,22 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files with secrets
+.env
+.env.local
+*.env
+
+# Temporary files
+tmp/
+*.tmp
+
+# Sealed secret private keys
+*.key
+*.pem
