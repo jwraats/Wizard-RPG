@@ -109,5 +109,42 @@ public static class SeedData
             context.RecipeIngredients.AddRange(recipeIngredients);
             context.SaveChanges();
         }
+
+        if (!context.QuizQuestions.Any())
+        {
+            var quizQuestions = new List<QuizQuestion>
+            {
+                // SpellLore - Easy
+                new() { QuestionText = "Which element is associated with the Fireball spell?", OptionA = "Ice", OptionB = "Fire", OptionC = "Lightning", OptionD = "Earth", CorrectOption = "B", Difficulty = QuizDifficulty.Easy, Category = QuizCategory.SpellLore },
+                // SpellLore - Medium
+                new() { QuestionText = "What is the mana cost of the Thunder Strike spell?", OptionA = "25", OptionB = "30", OptionC = "35", OptionD = "40", CorrectOption = "C", Difficulty = QuizDifficulty.Medium, Category = QuizCategory.SpellLore },
+                // SpellLore - Hard
+                new() { QuestionText = "Which spell has the highest base damage and costs 50 mana?", OptionA = "Arcane Blast", OptionB = "Lava Surge", OptionC = "Earthquake", OptionD = "Fireball", CorrectOption = "C", Difficulty = QuizDifficulty.Hard, Category = QuizCategory.SpellLore },
+
+                // MagicalCreatures - Easy
+                new() { QuestionText = "Which magical creature is reborn from its own ashes?", OptionA = "Dragon", OptionB = "Unicorn", OptionC = "Phoenix", OptionD = "Griffin", CorrectOption = "C", Difficulty = QuizDifficulty.Easy, Category = QuizCategory.MagicalCreatures },
+                // MagicalCreatures - Medium
+                new() { QuestionText = "What is a Dragon's most prized possession used in potion brewing?", OptionA = "Dragon Claw", OptionB = "Dragon Scale", OptionC = "Dragon Tooth", OptionD = "Dragon Eye", CorrectOption = "B", Difficulty = QuizDifficulty.Medium, Category = QuizCategory.MagicalCreatures },
+                // MagicalCreatures - Hard
+                new() { QuestionText = "Which creature's feather is described as warm to the touch and costs 80 gold?", OptionA = "Griffin", OptionB = "Hippogriff", OptionC = "Phoenix", OptionD = "Thunderbird", CorrectOption = "C", Difficulty = QuizDifficulty.Hard, Category = QuizCategory.MagicalCreatures },
+
+                // PotionIngredients - Easy
+                new() { QuestionText = "Which ingredient glows faintly at night?", OptionA = "Dragon Scale", OptionB = "Mandrake Root", OptionC = "Moonstone Dust", OptionD = "Toadstool Cap", CorrectOption = "C", Difficulty = QuizDifficulty.Easy, Category = QuizCategory.PotionIngredients },
+                // PotionIngredients - Medium
+                new() { QuestionText = "What happens when you pull a Mandrake Root from the earth?", OptionA = "It glows", OptionB = "It screams", OptionC = "It explodes", OptionD = "It vanishes", CorrectOption = "B", Difficulty = QuizDifficulty.Medium, Category = QuizCategory.PotionIngredients },
+                // PotionIngredients - Hard
+                new() { QuestionText = "Which two ingredients are needed to brew the Fire Resistance Elixir?", OptionA = "Moonstone Dust and Fairy Wing", OptionB = "Toadstool Cap and Mandrake Root", OptionC = "Dragon Scale and Phoenix Feather", OptionD = "Fairy Wing and Dragon Scale", CorrectOption = "C", Difficulty = QuizDifficulty.Hard, Category = QuizCategory.PotionIngredients },
+
+                // WizardHistory - Easy
+                new() { QuestionText = "What is the name of the academy where young wizards first learn to cast spells?", OptionA = "The Arcane Academy", OptionB = "The Crystal Tower", OptionC = "The Shadow Keep", OptionD = "The Ember Sanctum", CorrectOption = "A", Difficulty = QuizDifficulty.Easy, Category = QuizCategory.WizardHistory },
+                // WizardHistory - Medium
+                new() { QuestionText = "Who is credited with creating the first Arcane Blast spell?", OptionA = "Thalindra the Wise", OptionB = "Eldric Stormweaver", OptionC = "Meraxis the Bold", OptionD = "Solara Dawnfire", CorrectOption = "B", Difficulty = QuizDifficulty.Medium, Category = QuizCategory.WizardHistory },
+                // WizardHistory - Hard
+                new() { QuestionText = "During the Great Mage War, which school of magic was temporarily forbidden?", OptionA = "Fire Magic", OptionB = "Ice Magic", OptionC = "Arcane Magic", OptionD = "Earth Magic", CorrectOption = "C", Difficulty = QuizDifficulty.Hard, Category = QuizCategory.WizardHistory },
+            };
+
+            context.QuizQuestions.AddRange(quizQuestions);
+            context.SaveChanges();
+        }
     }
 }

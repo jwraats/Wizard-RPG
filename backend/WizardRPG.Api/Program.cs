@@ -55,6 +55,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IBankService, BankService>();
 builder.Services.AddScoped<IBroomGameService, BroomGameService>();
+builder.Services.AddScoped<IQuizService, QuizService>();
 builder.Services.AddScoped<IPotionBrewingService, PotionBrewingService>();
 builder.Services.AddScoped<IFellowshipService, FellowshipService>();
 builder.Services.AddScoped<IBattleService, BattleService>();

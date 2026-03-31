@@ -23,6 +23,8 @@ public class AppDbContext : DbContext
     public DbSet<PotionIngredient> PotionIngredients => Set<PotionIngredient>();
     public DbSet<RecipeIngredient> RecipeIngredients => Set<RecipeIngredient>();
     public DbSet<BrewAttempt> BrewAttempts => Set<BrewAttempt>();
+    public DbSet<QuizQuestion> QuizQuestions => Set<QuizQuestion>();
+    public DbSet<QuizAttempt> QuizAttempts => Set<QuizAttempt>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -191,6 +193,20 @@ public class AppDbContext : DbContext
              .WithMany(r => r.BrewAttempts)
              .HasForeignKey(a => a.RecipeId)
              .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<QuizQuestion>(e =>
+        {
+            e.HasKey(q => q.Id);
+        });
+
+        modelBuilder.Entity<QuizAttempt>(e =>
+        {
+            e.HasKey(a => a.Id);
+            e.HasOne(a => a.Player)
+             .WithMany(p => p.QuizAttempts)
+             .HasForeignKey(a => a.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }
