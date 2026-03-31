@@ -58,5 +58,3 @@ public class HouseController : ControllerBase
         return Ok(result);
     }
 }
-
-public record AwardHousePointsRequest(Guid PlayerId, int Points, string Activity);

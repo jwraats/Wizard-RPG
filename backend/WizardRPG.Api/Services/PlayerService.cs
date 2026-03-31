@@ -114,30 +114,24 @@ public class PlayerService : IPlayerService
             .Select(g => g.Key)
             .FirstOrDefault();
 
-        // Calculate win streaks
+        // Calculate win streaks in a single pass (battles ordered most recent first)
         int currentStreak = 0;
         int bestStreak = 0;
         int tempStreak = 0;
+        bool countingCurrent = true;
         foreach (var b in battles)
         {
             if (b.WinnerId == playerId)
             {
                 tempStreak++;
-                if (tempStreak > bestStreak)
-                    bestStreak = tempStreak;
+                if (countingCurrent) currentStreak++;
+                if (tempStreak > bestStreak) bestStreak = tempStreak;
             }
             else
             {
+                countingCurrent = false;
                 tempStreak = 0;
             }
-        }
-        // Current streak from most recent
-        foreach (var b in battles)
-        {
-            if (b.WinnerId == playerId)
-                currentStreak++;
-            else
-                break;
         }
 
         return new BattleStatsResponse(

@@ -37,7 +37,7 @@ public class HouseService : IHouseService
             .ToListAsync();
 
         var memberCounts = await _db.Players
-            .Where(p => p.House != "")
+            .Where(p => !string.IsNullOrEmpty(p.House))
             .GroupBy(p => p.House)
             .Select(g => new { House = g.Key, Count = g.Count() })
             .ToListAsync();

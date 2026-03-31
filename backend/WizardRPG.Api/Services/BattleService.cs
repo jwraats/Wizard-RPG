@@ -231,11 +231,6 @@ public class BattleService : IBattleService
         return await GetBattleAsync(battleId);
     }
 
-    private static int CalculateDamage(Player attacker, Spell spell)
-    {
-        return CalculateDamageWithBonuses(attacker, spell, 0, 0, 0, 0);
-    }
-
     private async Task<int> CalculateDamageWithEquipmentAsync(Player attacker, Spell spell)
     {
         var (magicBonus, strengthBonus, wisdomBonus, speedBonus) =
