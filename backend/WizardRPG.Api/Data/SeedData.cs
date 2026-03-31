@@ -33,5 +33,81 @@ public static class SeedData
         context.Spells.AddRange(spells);
         context.Items.AddRange(items);
         context.SaveChanges();
+
+        if (!context.PotionIngredients.Any())
+        {
+            var dragonScale = new PotionIngredient { Id = Guid.NewGuid(), Name = "Dragon Scale", Description = "A shimmering scale shed by an ancient dragon.", Price = 50 };
+            var moonstoneDust = new PotionIngredient { Id = Guid.NewGuid(), Name = "Moonstone Dust", Description = "Fine powder from a moonstone, glows faintly at night.", Price = 30 };
+            var phoenixFeather = new PotionIngredient { Id = Guid.NewGuid(), Name = "Phoenix Feather", Description = "A radiant feather that is warm to the touch.", Price = 80 };
+            var toadstoolCap = new PotionIngredient { Id = Guid.NewGuid(), Name = "Toadstool Cap", Description = "A spotted mushroom cap with mild magical properties.", Price = 15 };
+            var fairyWing = new PotionIngredient { Id = Guid.NewGuid(), Name = "Fairy Wing", Description = "A delicate wing donated by a friendly fairy.", Price = 40 };
+            var mandrakeRoot = new PotionIngredient { Id = Guid.NewGuid(), Name = "Mandrake Root", Description = "A gnarled root that screams when pulled from the earth.", Price = 25 };
+
+            context.PotionIngredients.AddRange(dragonScale, moonstoneDust, phoenixFeather, toadstoolCap, fairyWing, mandrakeRoot);
+
+            var healingBrew = new PotionRecipe
+            {
+                Id = Guid.NewGuid(),
+                Name = "Healing Brew",
+                Description = "A soothing potion that mends minor wounds.",
+                Difficulty = 1,
+                GoldReward = 20,
+                XpReward = 15
+            };
+
+            var invisibilityDraught = new PotionRecipe
+            {
+                Id = Guid.NewGuid(),
+                Name = "Invisibility Draught",
+                Description = "Turns the drinker invisible for a short time.",
+                Difficulty = 3,
+                GoldReward = 60,
+                XpReward = 40
+            };
+
+            var fireResistanceElixir = new PotionRecipe
+            {
+                Id = Guid.NewGuid(),
+                Name = "Fire Resistance Elixir",
+                Description = "Grants temporary immunity to fire damage.",
+                Difficulty = 4,
+                GoldReward = 100,
+                XpReward = 65
+            };
+
+            var felixFelicis = new PotionRecipe
+            {
+                Id = Guid.NewGuid(),
+                Name = "Felix Felicis",
+                Description = "Liquid luck — everything seems to go right for a while.",
+                Difficulty = 5,
+                GoldReward = 200,
+                XpReward = 100
+            };
+
+            context.PotionRecipes.AddRange(healingBrew, invisibilityDraught, fireResistanceElixir, felixFelicis);
+            context.SaveChanges();
+
+            var recipeIngredients = new List<RecipeIngredient>
+            {
+                // Healing Brew: 2 Toadstool Cap + 1 Mandrake Root
+                new() { RecipeId = healingBrew.Id, IngredientId = toadstoolCap.Id, Quantity = 2 },
+                new() { RecipeId = healingBrew.Id, IngredientId = mandrakeRoot.Id, Quantity = 1 },
+                // Invisibility Draught: 1 Moonstone Dust + 2 Fairy Wing
+                new() { RecipeId = invisibilityDraught.Id, IngredientId = moonstoneDust.Id, Quantity = 1 },
+                new() { RecipeId = invisibilityDraught.Id, IngredientId = fairyWing.Id, Quantity = 2 },
+                // Fire Resistance Elixir: 2 Dragon Scale + 1 Phoenix Feather
+                new() { RecipeId = fireResistanceElixir.Id, IngredientId = dragonScale.Id, Quantity = 2 },
+                new() { RecipeId = fireResistanceElixir.Id, IngredientId = phoenixFeather.Id, Quantity = 1 },
+                // Felix Felicis: 1 Phoenix Feather + 1 Moonstone Dust + 1 Fairy Wing + 1 Dragon Scale
+                new() { RecipeId = felixFelicis.Id, IngredientId = phoenixFeather.Id, Quantity = 1 },
+                new() { RecipeId = felixFelicis.Id, IngredientId = moonstoneDust.Id, Quantity = 1 },
+                new() { RecipeId = felixFelicis.Id, IngredientId = fairyWing.Id, Quantity = 1 },
+                new() { RecipeId = felixFelicis.Id, IngredientId = dragonScale.Id, Quantity = 1 },
+            };
+
+            context.RecipeIngredients.AddRange(recipeIngredients);
+            context.SaveChanges();
+        }
     }
 }

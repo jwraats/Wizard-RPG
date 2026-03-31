@@ -19,6 +19,10 @@ public class AppDbContext : DbContext
     public DbSet<Battle> Battles => Set<Battle>();
     public DbSet<BattleTurn> BattleTurns => Set<BattleTurn>();
     public DbSet<Spell> Spells => Set<Spell>();
+    public DbSet<PotionRecipe> PotionRecipes => Set<PotionRecipe>();
+    public DbSet<PotionIngredient> PotionIngredients => Set<PotionIngredient>();
+    public DbSet<RecipeIngredient> RecipeIngredients => Set<RecipeIngredient>();
+    public DbSet<BrewAttempt> BrewAttempts => Set<BrewAttempt>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -149,6 +153,43 @@ public class AppDbContext : DbContext
             e.HasOne(bt => bt.Spell)
              .WithMany(s => s.BattleTurns)
              .HasForeignKey(bt => bt.SpellId)
+             .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<PotionRecipe>(e =>
+        {
+            e.HasKey(r => r.Id);
+        });
+
+        modelBuilder.Entity<PotionIngredient>(e =>
+        {
+            e.HasKey(i => i.Id);
+            e.Property(i => i.Price).HasDefaultValue(10L);
+        });
+
+        modelBuilder.Entity<RecipeIngredient>(e =>
+        {
+            e.HasKey(ri => ri.Id);
+            e.HasOne(ri => ri.Recipe)
+             .WithMany(r => r.Ingredients)
+             .HasForeignKey(ri => ri.RecipeId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(ri => ri.Ingredient)
+             .WithMany(i => i.RecipeIngredients)
+             .HasForeignKey(ri => ri.IngredientId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<BrewAttempt>(e =>
+        {
+            e.HasKey(a => a.Id);
+            e.HasOne(a => a.Player)
+             .WithMany(p => p.BrewAttempts)
+             .HasForeignKey(a => a.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(a => a.Recipe)
+             .WithMany(r => r.BrewAttempts)
+             .HasForeignKey(a => a.RecipeId)
              .OnDelete(DeleteBehavior.Restrict);
         });
     }
