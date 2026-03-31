@@ -43,7 +43,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task Register_ValidRequest_ReturnsOkWithToken()
     {
         var client = _factory.CreateClient();
-        var request = new RegisterRequest("TestWizard", "wizard@test.com", "Password123!", null);
+        var request = new RegisterRequest("TestWizard", "wizard@test.com", "Password123!", null, null);
 
         var response = await client.PostAsJsonAsync("/api/auth/register", request);
 
@@ -59,11 +59,11 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task Register_DuplicateEmail_ReturnsBadRequest()
     {
         var client = _factory.CreateClient();
-        var request = new RegisterRequest("Wizard1", "dup@test.com", "Password123!", null);
+        var request = new RegisterRequest("Wizard1", "dup@test.com", "Password123!", null, null);
 
         await client.PostAsJsonAsync("/api/auth/register", request);
         var secondResponse = await client.PostAsJsonAsync("/api/auth/register",
-            new RegisterRequest("Wizard2", "dup@test.com", "Password123!", null));
+            new RegisterRequest("Wizard2", "dup@test.com", "Password123!", null, null));
 
         Assert.Equal(HttpStatusCode.BadRequest, secondResponse.StatusCode);
     }
@@ -72,7 +72,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task Login_ValidCredentials_ReturnsOkWithToken()
     {
         var client = _factory.CreateClient();
-        var regRequest = new RegisterRequest("LoginTestWizard", "login@test.com", "Password123!", null);
+        var regRequest = new RegisterRequest("LoginTestWizard", "login@test.com", "Password123!", null, null);
         await client.PostAsJsonAsync("/api/auth/register", regRequest);
 
         var loginRequest = new LoginRequest("login@test.com", "Password123!");
@@ -88,7 +88,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task Login_InvalidPassword_ReturnsUnauthorized()
     {
         var client = _factory.CreateClient();
-        var regRequest = new RegisterRequest("BadPassWizard", "badpass@test.com", "CorrectPassword!", null);
+        var regRequest = new RegisterRequest("BadPassWizard", "badpass@test.com", "CorrectPassword!", null, null);
         await client.PostAsJsonAsync("/api/auth/register", regRequest);
 
         var loginRequest = new LoginRequest("badpass@test.com", "WrongPassword!");
@@ -101,7 +101,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task Refresh_ValidToken_ReturnsNewToken()
     {
         var client = _factory.CreateClient();
-        var regRequest = new RegisterRequest("RefreshWizard", "refresh@test.com", "Password123!", null);
+        var regRequest = new RegisterRequest("RefreshWizard", "refresh@test.com", "Password123!", null, null);
         var regResponse = await client.PostAsJsonAsync("/api/auth/register", regRequest);
         var authResult = await regResponse.Content.ReadFromJsonAsync<AuthResponse>();
 

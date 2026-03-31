@@ -82,8 +82,23 @@ public class PlayerService : IPlayerService
         return players.Select(MapToResponse).ToList();
     }
 
-    private static PlayerProfileResponse MapToResponse(Player p) => new(
-        p.Id, p.Username, p.Email, p.GoldCoins, p.Level,
-        p.Experience, p.MagicPower, p.Strength, p.Wisdom,
-        p.Speed, p.ReferralCode, p.CreatedAt, p.IsAdmin);
+    private static PlayerProfileResponse MapToResponse(Player p)
+    {
+        var (tier, badge) = GetRankInfo(p.EloRating);
+        return new(
+            p.Id, p.Username, p.Email, p.GoldCoins, p.Level,
+            p.Experience, p.MagicPower, p.Strength, p.Wisdom,
+            p.Speed, p.ReferralCode, p.CreatedAt, p.IsAdmin,
+            p.EloRating, p.House, tier, badge,
+            p.HasCompletedOnboarding, p.LoginStreak);
+    }
+
+    private static (string Tier, string Badge) GetRankInfo(int elo) => elo switch
+    {
+        >= 2000 => ("Archmage", "🔮"),
+        >= 1600 => ("Master Wizard", "⭐"),
+        >= 1200 => ("Journeyman", "🌟"),
+        >= 800 => ("Apprentice", "📖"),
+        _ => ("Novice", "🪄")
+    };
 }

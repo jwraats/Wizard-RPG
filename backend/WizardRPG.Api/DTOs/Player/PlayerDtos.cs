@@ -13,7 +13,13 @@ public record PlayerProfileResponse(
     int Speed,
     string ReferralCode,
     DateTime CreatedAt,
-    bool IsAdmin);
+    bool IsAdmin,
+    int EloRating,
+    string House,
+    string RankTier,
+    string RankBadge,
+    bool HasCompletedOnboarding,
+    int LoginStreak);
 
 public record UpdateProfileRequest(string? Username, string? Email);
 

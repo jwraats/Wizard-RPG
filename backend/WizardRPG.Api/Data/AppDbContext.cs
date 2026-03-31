@@ -19,6 +19,10 @@ public class AppDbContext : DbContext
     public DbSet<Battle> Battles => Set<Battle>();
     public DbSet<BattleTurn> BattleTurns => Set<BattleTurn>();
     public DbSet<Spell> Spells => Set<Spell>();
+    public DbSet<HousePoints> HousePoints => Set<HousePoints>();
+    public DbSet<Achievement> Achievements => Set<Achievement>();
+    public DbSet<Quest> Quests => Set<Quest>();
+    public DbSet<Notification> Notifications => Set<Notification>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,6 +36,43 @@ public class AppDbContext : DbContext
             e.HasIndex(p => p.ReferralCode).IsUnique();
             e.Property(p => p.GoldCoins).HasDefaultValue(0L);
             e.Property(p => p.Level).HasDefaultValue(1);
+            e.Property(p => p.EloRating).HasDefaultValue(1000);
+
+            e.HasOne(p => p.ReferredByPlayer)
+             .WithMany()
+             .HasForeignKey(p => p.ReferredByPlayerId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
+
+            e.HasOne(p => p.EquippedWand)
+             .WithMany()
+             .HasForeignKey(p => p.EquippedWandId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
+
+            e.HasOne(p => p.EquippedRobe)
+             .WithMany()
+             .HasForeignKey(p => p.EquippedRobeId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
+
+            e.HasOne(p => p.EquippedHat)
+             .WithMany()
+             .HasForeignKey(p => p.EquippedHatId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
+
+            e.HasOne(p => p.EquippedAmulet)
+             .WithMany()
+             .HasForeignKey(p => p.EquippedAmuletId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
+
+            e.HasOne(p => p.EquippedBroom)
+             .WithMany()
+             .HasForeignKey(p => p.EquippedBroomId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
         });
 
         modelBuilder.Entity<BankAccount>(e =>
@@ -150,6 +191,42 @@ public class AppDbContext : DbContext
              .WithMany(s => s.BattleTurns)
              .HasForeignKey(bt => bt.SpellId)
              .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<HousePoints>(e =>
+        {
+            e.HasKey(hp => hp.Id);
+            e.HasOne(hp => hp.Player)
+             .WithMany(p => p.HousePoints)
+             .HasForeignKey(hp => hp.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Achievement>(e =>
+        {
+            e.HasKey(a => a.Id);
+            e.HasOne(a => a.Player)
+             .WithMany(p => p.Achievements)
+             .HasForeignKey(a => a.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Quest>(e =>
+        {
+            e.HasKey(q => q.Id);
+            e.HasOne(q => q.Player)
+             .WithMany(p => p.Quests)
+             .HasForeignKey(q => q.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Notification>(e =>
+        {
+            e.HasKey(n => n.Id);
+            e.HasOne(n => n.Player)
+             .WithMany(p => p.Notifications)
+             .HasForeignKey(n => n.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }
