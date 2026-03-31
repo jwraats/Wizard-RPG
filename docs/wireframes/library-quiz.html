@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enchanted Library Quiz — Wireframe</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #1a1a2e; color: #e0e0e0; min-height: 100vh; }
+        .nav { background: #0f3460; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav a { color: #f0c040; text-decoration: none; font-size: 0.9rem; }
+        .nav h3 { color: #e0e0e0; font-size: 0.95rem; }
+        .game-container { max-width: 700px; margin: 1rem auto; padding: 0 1rem; }
+        .page-title { text-align: center; padding: 1rem; color: #f0c040; font-size: 1.4rem; }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1rem;
+        }
+        .quiz-stat { text-align: center; }
+        .quiz-stat .label { font-size: 0.7rem; color: #a0a0c0; }
+        .quiz-stat .value { font-size: 1.3rem; font-weight: bold; color: #f0c040; }
+        .quiz-stat .value.timer { color: #e94560; }
+
+        .timer-bar {
+            height: 6px;
+            background: #0a0a1a;
+            border-radius: 3px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .timer-fill {
+            height: 100%;
+            width: 65%;
+            background: linear-gradient(90deg, #e94560, #fbbf24);
+            border-radius: 3px;
+            transition: width 1s linear;
+        }
+
+        .question-card {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .question-number { color: #a0a0c0; font-size: 0.8rem; margin-bottom: 0.5rem; }
+        .question-text { font-size: 1.15rem; line-height: 1.5; margin-bottom: 1.2rem; }
+        .difficulty { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; margin-bottom: 0.5rem; }
+        .difficulty.medium { background: #fbbf24; color: #1a1a2e; }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .answer-btn {
+            background: #0f3460;
+            border: 2px solid #1a4a8a;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.95rem;
+            text-align: left;
+            display: flex;
+            gap: 0.7rem;
+            align-items: center;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .answer-btn:hover { border-color: #f0c040; background: #1a4a8a; }
+        .answer-btn.selected { border-color: #f0c040; background: #1a4a8a; }
+        .answer-btn .letter {
+            width: 28px;
+            height: 28px;
+            background: #1a1a2e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .submit-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .submit-btn {
+            padding: 0.7rem 3rem;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .submit-btn:hover { filter: brightness(1.1); }
+
+        .leaderboard {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        .leaderboard h3 { color: #f0c040; margin-bottom: 0.8rem; font-size: 0.95rem; }
+        .lb-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        .lb-row:nth-child(even) { background: #0f3460; }
+        .lb-row .rank { color: #a0a0c0; width: 30px; }
+        .lb-row .name { flex: 1; }
+        .lb-row .score { color: #f0c040; font-weight: bold; }
+        .lb-row.you { color: #22c55e; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">← Back to Games</a>
+        <h3>📚 Enchanted Library Quiz</h3>
+        <span style="color:#606080; font-size:0.8rem;">WIREFRAME</span>
+    </div>
+
+    <div class="game-container">
+        <div class="page-title">📚 Enchanted Library Quiz</div>
+
+        <div class="quiz-header">
+            <div class="quiz-stat">
+                <div class="label">Question</div>
+                <div class="value">5 / 10</div>
+            </div>
+            <div class="quiz-stat">
+                <div class="label">⏱️ Time Left</div>
+                <div class="value timer">12s</div>
+            </div>
+            <div class="quiz-stat">
+                <div class="label">Score</div>
+                <div class="value">340</div>
+            </div>
+            <div class="quiz-stat">
+                <div class="label">Streak</div>
+                <div class="value">🔥 3</div>
+            </div>
+        </div>
+
+        <div class="timer-bar"><div class="timer-fill"></div></div>
+
+        <div class="question-card">
+            <div class="question-number">Question 5 of 10</div>
+            <span class="difficulty medium">⚡ Medium</span>
+            <div class="question-text">
+                Which ingredient is essential for brewing a Polyjuice Potion in advanced alchemy?
+            </div>
+            <div class="answers">
+                <button class="answer-btn" onclick="selectAnswer(this)">
+                    <span class="letter">A</span>
+                    <span>Moonwort Leaves</span>
+                </button>
+                <button class="answer-btn selected" onclick="selectAnswer(this)">
+                    <span class="letter">B</span>
+                    <span>Lacewing Flies</span>
+                </button>
+                <button class="answer-btn" onclick="selectAnswer(this)">
+                    <span class="letter">C</span>
+                    <span>Dragon Blood</span>
+                </button>
+                <button class="answer-btn" onclick="selectAnswer(this)">
+                    <span class="letter">D</span>
+                    <span>Phoenix Feather Ash</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="submit-row">
+            <button class="submit-btn">✅ Submit Answer</button>
+        </div>
+
+        <div class="leaderboard">
+            <h3>🏆 Weekly Leaderboard</h3>
+            <div class="lb-row">
+                <span class="rank">🥇</span>
+                <span class="name">MerlinX</span>
+                <span class="score">2,450 pts</span>
+            </div>
+            <div class="lb-row">
+                <span class="rank">🥈</span>
+                <span class="name">StarWitch99</span>
+                <span class="score">2,180 pts</span>
+            </div>
+            <div class="lb-row">
+                <span class="rank">🥉</span>
+                <span class="name">RuneMaster</span>
+                <span class="score">1,920 pts</span>
+            </div>
+            <div class="lb-row you">
+                <span class="rank">4.</span>
+                <span class="name">👉 You (Aldric)</span>
+                <span class="score">1,740 pts</span>
+            </div>
+            <div class="lb-row">
+                <span class="rank">5.</span>
+                <span class="name">DarkMage42</span>
+                <span class="score">1,650 pts</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectAnswer(btn) {
+            document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+    </script>
+</body>
+</html>
