@@ -1,13 +1,39 @@
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
+# .NET
+backend/*/bin/
+backend/*/obj/
+backend/**/*.user
+*.suo
+.vs/
+*.nupkg
+
+# Node / Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Docker volumes
+postgres_data/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo
 
+# Playwright test results
+frontend/test-results/
+frontend/playwright-report/
+
+# Logs
+*.log
 # Environment files with secrets
 .env
 .env.local

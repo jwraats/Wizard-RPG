@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: wizardrpg
+      POSTGRES_USER: wizard
+      POSTGRES_PASSWORD: magic123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wizard -d wizardrpg"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: WizardRPG.Api/Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=wizardrpg;Username=wizard;Password=magic123
+      - Jwt__Secret=WizardRPGSecretKey_ChangeInProduction_MustBe32CharsLong!
+      - Jwt__Issuer=WizardRPG
+      - Jwt__Audience=WizardRPGClient
+      - Jwt__ExpiresInMinutes=60
+      - AllowedOrigins__0=http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
