@@ -27,4 +27,5 @@ public class Player
     public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
     public ICollection<DungeonRun> DungeonRuns { get; set; } = new List<DungeonRun>();
     public ICollection<PlayerCreature> PlayerCreatures { get; set; } = new List<PlayerCreature>();
+    public ICollection<PlayerStoryProgress> StoryProgress { get; set; } = new List<PlayerStoryProgress>();
 }

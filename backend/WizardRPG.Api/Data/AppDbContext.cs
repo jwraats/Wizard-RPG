@@ -28,6 +28,9 @@ public class AppDbContext : DbContext
     public DbSet<DungeonRun> DungeonRuns => Set<DungeonRun>();
     public DbSet<Creature> Creatures => Set<Creature>();
     public DbSet<PlayerCreature> PlayerCreatures => Set<PlayerCreature>();
+    public DbSet<StoryChapter> StoryChapters => Set<StoryChapter>();
+    public DbSet<StoryChoice> StoryChoices => Set<StoryChoice>();
+    public DbSet<PlayerStoryProgress> PlayerStoryProgress => Set<PlayerStoryProgress>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -238,6 +241,38 @@ public class AppDbContext : DbContext
             e.HasOne(pc => pc.Creature)
              .WithMany(c => c.PlayerCreatures)
              .HasForeignKey(pc => pc.CreatureId)
+             .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<StoryChapter>(e =>
+        {
+            e.HasKey(c => c.Id);
+        });
+
+        modelBuilder.Entity<StoryChoice>(e =>
+        {
+            e.HasKey(c => c.Id);
+            e.HasOne(c => c.Chapter)
+             .WithMany(ch => ch.Choices)
+             .HasForeignKey(c => c.ChapterId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(c => c.NextChapter)
+             .WithMany()
+             .HasForeignKey(c => c.NextChapterId)
+             .OnDelete(DeleteBehavior.Restrict)
+             .IsRequired(false);
+        });
+
+        modelBuilder.Entity<PlayerStoryProgress>(e =>
+        {
+            e.HasKey(p => p.Id);
+            e.HasOne(p => p.Player)
+             .WithMany(pl => pl.StoryProgress)
+             .HasForeignKey(p => p.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(p => p.CurrentChapter)
+             .WithMany()
+             .HasForeignKey(p => p.CurrentChapterId)
              .OnDelete(DeleteBehavior.Restrict);
         });
     }

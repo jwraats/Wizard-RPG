@@ -168,5 +168,115 @@ public static class SeedData
             context.Creatures.AddRange(creatures);
             context.SaveChanges();
         }
+
+        if (!context.StoryChapters.Any())
+        {
+            // Chapter 1: The Discovery
+            var ch1 = new StoryChapter
+            {
+                Id = Guid.NewGuid(),
+                Title = "The Discovery",
+                Content = "While wandering the castle's lower halls, you notice a faint shimmer behind a tapestry. Pulling it aside reveals a narrow corridor you've never seen before. Cold air seeps from the darkness within, carrying whispers too faint to understand. The stones around the entrance are etched with ancient runes that pulse with a dim violet light.",
+                StoryArc = "The Forbidden Corridor",
+                OrderIndex = 0,
+                IsEnding = false
+            };
+
+            // Chapter 2: The Guardian
+            var ch2 = new StoryChapter
+            {
+                Id = Guid.NewGuid(),
+                Title = "The Guardian",
+                Content = "You step into the corridor and the tapestry falls shut behind you. Torches flicker to life along the walls, illuminating a massive stone golem blocking the passage ahead. Its hollow eyes glow with an amber light, and a deep rumble echoes as it speaks: 'None shall pass without proving their worth.' The ground trembles beneath your feet.",
+                StoryArc = "The Forbidden Corridor",
+                OrderIndex = 1,
+                IsEnding = false
+            };
+
+            // Chapter 3: The Secret Chamber
+            var ch3 = new StoryChapter
+            {
+                Id = Guid.NewGuid(),
+                Title = "The Secret Chamber",
+                Content = "Beyond the golem lies a vast underground chamber filled with towering bookshelves and floating candles. An ancient library, untouched for centuries. Dust motes dance in the candlelight. On a central pedestal sit two objects: a leather-bound tome radiating gentle warmth, and a crystalline artifact pulsing with raw magical energy. You sense you can only take one.",
+                StoryArc = "The Forbidden Corridor",
+                OrderIndex = 2,
+                IsEnding = false
+            };
+
+            // Chapter 4: Knowledge Gained (ending)
+            var ch4 = new StoryChapter
+            {
+                Id = Guid.NewGuid(),
+                Title = "Knowledge Gained",
+                Content = "You open the ancient tome and knowledge floods your mind — centuries of forgotten spells, lost histories, and arcane secrets. The whispers in the walls grow clear, thanking you for choosing wisdom over power. As you leave the corridor, you feel fundamentally changed. The runes on the entrance dim and seal shut, but the knowledge remains yours forever.",
+                StoryArc = "The Forbidden Corridor",
+                OrderIndex = 3,
+                IsEnding = true,
+                GoldReward = 50,
+                XpReward = 100
+            };
+
+            // Chapter 5: The Artifact's Curse (ending)
+            var ch5 = new StoryChapter
+            {
+                Id = Guid.NewGuid(),
+                Title = "The Artifact's Curse",
+                Content = "You grasp the crystalline artifact and power surges through you. The whispers turn to screams, then silence. The artifact crumbles into golden dust that seeps into your skin, granting you immense but volatile power. As you exit the corridor, you notice your reflection has changed — your eyes now carry an eerie glow. Great power, but at what cost?",
+                StoryArc = "The Forbidden Corridor",
+                OrderIndex = 4,
+                IsEnding = true,
+                GoldReward = 100,
+                XpReward = 50
+            };
+
+            // Ending: Walk Away
+            var chWalkAway = new StoryChapter
+            {
+                Id = Guid.NewGuid(),
+                Title = "Discretion is Valor",
+                Content = "You let the tapestry fall back into place and walk away. Some secrets are best left undiscovered. The whispers fade behind you, and by morning you almost convince yourself it was just the wind. But sometimes, late at night, you still hear them calling...",
+                StoryArc = "The Forbidden Corridor",
+                OrderIndex = 5,
+                IsEnding = true,
+                GoldReward = 10,
+                XpReward = 10
+            };
+
+            // Ending: Run from golem
+            var chRun = new StoryChapter
+            {
+                Id = Guid.NewGuid(),
+                Title = "A Hasty Retreat",
+                Content = "The golem is too imposing. You turn and sprint back through the corridor as the walls begin to shake. You burst through the tapestry and collapse in the hallway, heart pounding. When you look back, the corridor is gone — only solid stone remains. Perhaps you'll be braver next time.",
+                StoryArc = "The Forbidden Corridor",
+                OrderIndex = 6,
+                IsEnding = true,
+                GoldReward = 5,
+                XpReward = 15
+            };
+
+            context.StoryChapters.AddRange(ch1, ch2, ch3, ch4, ch5, chWalkAway, chRun);
+            context.SaveChanges();
+
+            var choices = new List<StoryChoice>
+            {
+                // Chapter 1 choices
+                new() { Id = Guid.NewGuid(), ChapterId = ch1.Id, ChoiceText = "Enter the forbidden corridor", NextChapterId = ch2.Id },
+                new() { Id = Guid.NewGuid(), ChapterId = ch1.Id, ChoiceText = "Walk away — some doors are best left closed", NextChapterId = chWalkAway.Id },
+
+                // Chapter 2 choices
+                new() { Id = Guid.NewGuid(), ChapterId = ch2.Id, ChoiceText = "Channel your wisdom to outwit the golem", NextChapterId = ch3.Id, MinWisdom = 15 },
+                new() { Id = Guid.NewGuid(), ChapterId = ch2.Id, ChoiceText = "Negotiate with the ancient guardian", NextChapterId = ch3.Id },
+                new() { Id = Guid.NewGuid(), ChapterId = ch2.Id, ChoiceText = "Run back the way you came", NextChapterId = chRun.Id },
+
+                // Chapter 3 choices
+                new() { Id = Guid.NewGuid(), ChapterId = ch3.Id, ChoiceText = "Read the ancient tome", NextChapterId = ch4.Id },
+                new() { Id = Guid.NewGuid(), ChapterId = ch3.Id, ChoiceText = "Take the crystalline artifact", NextChapterId = ch5.Id },
+            };
+
+            context.StoryChoices.AddRange(choices);
+            context.SaveChanges();
+        }
     }
 }
