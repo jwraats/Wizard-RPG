@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wizard School Mini-Games — Wireframes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(135deg, #16213e, #0f3460);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid #e94560;
+        }
+        header h1 {
+            font-size: 2.2rem;
+            color: #f0c040;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        header p {
+            margin-top: 0.5rem;
+            color: #a0a0c0;
+            font-size: 1rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #e94560;
+        }
+        .card-icon {
+            font-size: 3rem;
+            text-align: center;
+            padding: 1.5rem 1rem 0.5rem;
+        }
+        .card-body {
+            padding: 1rem 1.5rem 1.5rem;
+        }
+        .card-body h2 {
+            font-size: 1.3rem;
+            color: #f0c040;
+            margin-bottom: 0.5rem;
+        }
+        .card-body .type {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 0.7rem;
+        }
+        .card-body p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #b0b0d0;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #606080;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🧙 Wizard School Mini-Games</h1>
+        <p>Click any card to view the interactive wireframe</p>
+    </header>
+
+    <div class="grid">
+        <a class="card" href="spell-duel.html">
+            <div class="card-icon">⚔️</div>
+            <div class="card-body">
+                <span class="type">Turn-based Combat</span>
+                <h2>Spell Duel Arena</h2>
+                <p>Face off against other wizards in turn-based spell combat. Choose spells, manage mana, and exploit elemental advantages to win.</p>
+            </div>
+        </a>
+
+        <a class="card" href="potion-brewing.html">
+            <div class="card-icon">🧪</div>
+            <div class="card-body">
+                <span class="type">Crafting / Puzzle</span>
+                <h2>Potion Brewing Lab</h2>
+                <p>Combine magical ingredients to brew potions. Discover secret recipes, manage temperatures, and avoid explosive failures.</p>
+            </div>
+        </a>
+
+        <a class="card" href="library-quiz.html">
+            <div class="card-icon">📚</div>
+            <div class="card-body">
+                <span class="type">Trivia / Knowledge</span>
+                <h2>Enchanted Library Quiz</h2>
+                <p>Answer magical trivia to earn house points and gold. Compete on the leaderboard with timed quiz rounds.</p>
+            </div>
+        </a>
+
+        <a class="card" href="creature-taming.html">
+            <div class="card-icon">🐉</div>
+            <div class="card-body">
+                <span class="type">Collection / Management</span>
+                <h2>Magical Creature Taming</h2>
+                <p>Discover, tame, and care for magical creatures. Train them for bonuses and trade rare finds with other players.</p>
+            </div>
+        </a>
+
+        <a class="card" href="broom-racing.html">
+            <div class="card-icon">🏇</div>
+            <div class="card-body">
+                <span class="type">Betting / Strategy</span>
+                <h2>Broom Racing League</h2>
+                <p>Watch text-narrated broom races and place bets. Analyze rider stats and odds to win big gold payouts.</p>
+            </div>
+        </a>
+
+        <a class="card" href="dungeon-crawler.html">
+            <div class="card-icon">🏰</div>
+            <div class="card-body">
+                <span class="type">Roguelike / Exploration</span>
+                <h2>Dungeon Crawler</h2>
+                <p>Explore procedurally generated dungeons beneath the school. Fight monsters, solve riddles, and collect treasure.</p>
+            </div>
+        </a>
+
+        <a class="card" href="wizard-chess.html">
+            <div class="card-icon">♟️</div>
+            <div class="card-body">
+                <span class="type">Strategy / Board Game</span>
+                <h2>Wizard Chess</h2>
+                <p>Play a magical chess variant on a 6×6 board where pieces have unique spell abilities. Challenge other players.</p>
+            </div>
+        </a>
+
+        <a class="card" href="whispering-walls.html">
+            <div class="card-icon">📜</div>
+            <div class="card-body">
+                <span class="type">Interactive Fiction</span>
+                <h2>The Whispering Walls</h2>
+                <p>Explore branching storylines within the school. Your choices shape your reputation and unlock hidden paths.</p>
+            </div>
+        </a>
+    </div>
+
+    <footer>
+        Wizard School RPG — Mini-Game Wireframes — Brainstorm Phase
+    </footer>
+</body>
+</html>

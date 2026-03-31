@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magical Creature Taming — Wireframe</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #1a1a2e; color: #e0e0e0; min-height: 100vh; }
+        .nav { background: #0f3460; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav a { color: #f0c040; text-decoration: none; font-size: 0.9rem; }
+        .nav h3 { color: #e0e0e0; font-size: 0.95rem; }
+        .game-container { max-width: 850px; margin: 1rem auto; padding: 0 1rem; }
+        .page-title { text-align: center; padding: 1rem; color: #f0c040; font-size: 1.4rem; }
+
+        .creature-layout {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .panel {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        .panel h3 { color: #f0c040; margin-bottom: 0.8rem; font-size: 0.95rem; }
+
+        .creature-display {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .creature-sprite {
+            font-size: 5rem;
+            margin-bottom: 0.5rem;
+        }
+        .creature-name {
+            font-size: 1.3rem;
+            color: #f0c040;
+            font-weight: bold;
+        }
+        .creature-species {
+            color: #a0a0c0;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+        .rarity {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .rarity.rare { background: #3a86ff; color: white; }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            font-size: 0.85rem;
+        }
+        .stat-row .stat-label { color: #a0a0c0; }
+        .stat-row .stat-value { color: #f0c040; }
+
+        .mood-bar {
+            margin: 0.8rem 0;
+        }
+        .mood-bar label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #a0a0c0;
+            margin-bottom: 3px;
+        }
+        .bar-track {
+            height: 10px;
+            background: #0a0a1a;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 5px;
+        }
+        .bar-fill.happiness { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+        .bar-fill.loyalty { background: linear-gradient(90deg, #e94560, #ec4899); }
+        .bar-fill.energy { background: linear-gradient(90deg, #22c55e, #4ade80); }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .action-btn {
+            padding: 0.6rem;
+            background: #0f3460;
+            border: 2px solid #1a4a8a;
+            border-radius: 8px;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .action-btn:hover { border-color: #f0c040; }
+        .action-btn.cooldown { opacity: 0.5; cursor: not-allowed; }
+        .action-btn .cooldown-text { font-size: 0.7rem; color: #e94560; }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        .creature-card {
+            background: #0f3460;
+            border: 2px solid #1a4a8a;
+            border-radius: 8px;
+            padding: 0.6rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .creature-card:hover { border-color: #f0c040; }
+        .creature-card.active { border-color: #f0c040; }
+        .creature-card .emoji { font-size: 1.8rem; }
+        .creature-card .card-name { font-size: 0.75rem; margin-top: 0.2rem; }
+        .creature-card .card-level { font-size: 0.65rem; color: #a0a0c0; }
+        .creature-card.empty {
+            border-style: dashed;
+            opacity: 0.4;
+        }
+
+        .explore-btn {
+            width: 100%;
+            padding: 0.7rem;
+            margin-top: 0.8rem;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .explore-btn:hover { filter: brightness(1.1); }
+
+        .bonus-panel {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .bonus-panel h3 { color: #f0c040; margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .bonus-item {
+            font-size: 0.8rem;
+            padding: 0.3rem 0;
+            color: #a0a0c0;
+        }
+        .bonus-item span { color: #22c55e; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">← Back to Games</a>
+        <h3>🐉 Magical Creature Taming</h3>
+        <span style="color:#606080; font-size:0.8rem;">WIREFRAME</span>
+    </div>
+
+    <div class="game-container">
+        <div class="page-title">🐉 Magical Creature Taming</div>
+
+        <div class="creature-layout">
+            <div class="panel">
+                <div class="creature-display">
+                    <div class="creature-sprite">🐉</div>
+                    <div class="creature-name">Ember</div>
+                    <div class="creature-species">Baby Fire Drake · Level 4</div>
+                    <span class="rarity rare">★ Rare</span>
+
+                    <div class="stat-row"><span class="stat-label">Strength</span><span class="stat-value">14</span></div>
+                    <div class="stat-row"><span class="stat-label">Intelligence</span><span class="stat-value">8</span></div>
+                    <div class="stat-row"><span class="stat-label">Speed</span><span class="stat-value">11</span></div>
+
+                    <div class="mood-bar">
+                        <label><span>😊 Happiness</span><span>78%</span></label>
+                        <div class="bar-track"><div class="bar-fill happiness" style="width:78%"></div></div>
+                    </div>
+                    <div class="mood-bar">
+                        <label><span>❤️ Loyalty</span><span>62%</span></label>
+                        <div class="bar-track"><div class="bar-fill loyalty" style="width:62%"></div></div>
+                    </div>
+                    <div class="mood-bar">
+                        <label><span>⚡ Energy</span><span>45%</span></label>
+                        <div class="bar-track"><div class="bar-fill energy" style="width:45%"></div></div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn">🍖 Feed</button>
+                        <button class="action-btn">⚔️ Train</button>
+                        <button class="action-btn cooldown">😴 Rest<br><span class="cooldown-text">2h 15m left</span></button>
+                        <button class="action-btn">🎾 Play</button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="panel">
+                    <h3>📦 My Creatures (4/6)</h3>
+                    <div class="collection-grid">
+                        <div class="creature-card active">
+                            <div class="emoji">🐉</div>
+                            <div class="card-name">Ember</div>
+                            <div class="card-level">Lv 4 · Rare</div>
+                        </div>
+                        <div class="creature-card">
+                            <div class="emoji">🦉</div>
+                            <div class="card-name">Whisper</div>
+                            <div class="card-level">Lv 2 · Common</div>
+                        </div>
+                        <div class="creature-card">
+                            <div class="emoji">🐺</div>
+                            <div class="card-name">Shadow</div>
+                            <div class="card-level">Lv 3 · Uncommon</div>
+                        </div>
+                        <div class="creature-card">
+                            <div class="emoji">🦎</div>
+                            <div class="card-name">Spark</div>
+                            <div class="card-level">Lv 1 · Common</div>
+                        </div>
+                        <div class="creature-card empty">
+                            <div class="emoji">❓</div>
+                            <div class="card-name">Empty Slot</div>
+                        </div>
+                        <div class="creature-card empty">
+                            <div class="emoji">❓</div>
+                            <div class="card-name">Empty Slot</div>
+                        </div>
+                    </div>
+                    <button class="explore-btn">🌲 Explore the Forbidden Forest</button>
+                </div>
+
+                <div class="bonus-panel">
+                    <h3>✨ Active Bonuses</h3>
+                    <div class="bonus-item">🐉 Ember: <span>+5% Fire spell damage</span></div>
+                    <div class="bonus-item">🦉 Whisper: <span>+2 gold per hour</span></div>
+                    <div class="bonus-item">🐺 Shadow: <span>+3% dodge chance</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

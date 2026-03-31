@@ -1,0 +1,72 @@
+# ArgoCD Application: CloudNativePG Operator
+# This must be synced BEFORE the database and application.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cnpg-operator
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  project: wizard-rpg
+  source:
+    repoURL: https://github.com/jwraats/Wizard-RPG.git
+    targetRevision: HEAD
+    path: gitops/infrastructure/cnpg-operator
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cnpg-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+# ArgoCD Application: Wizard-RPG Database (CloudNativePG)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wizard-rpg-database
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: wizard-rpg
+  source:
+    repoURL: https://github.com/jwraats/Wizard-RPG.git
+    targetRevision: HEAD
+    path: gitops/database
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: wizard-rpg
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+# ArgoCD Application: Wizard-RPG App
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wizard-rpg
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: wizard-rpg
+  source:
+    repoURL: https://github.com/jwraats/Wizard-RPG.git
+    targetRevision: HEAD
+    path: gitops/apps/wizard-rpg
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: wizard-rpg
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

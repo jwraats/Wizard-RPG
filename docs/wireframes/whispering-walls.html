@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Whispering Walls — Wireframe</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #1a1a2e; color: #e0e0e0; min-height: 100vh; }
+        .nav { background: #0f3460; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav a { color: #f0c040; text-decoration: none; font-size: 0.9rem; }
+        .nav h3 { color: #e0e0e0; font-size: 0.95rem; }
+        .game-container { max-width: 700px; margin: 1rem auto; padding: 0 1rem; }
+        .page-title { text-align: center; padding: 1rem; color: #f0c040; font-size: 1.4rem; }
+
+        .chapter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+        .ch-label { color: #a0a0c0; }
+        .ch-value { color: #f0c040; font-weight: bold; }
+
+        .story-panel {
+            background: #16213e;
+            border: 2px solid #4a3480;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .story-scene {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .story-location {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #c084fc;
+            margin-bottom: 1rem;
+        }
+        .story-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #d0d0e0;
+        }
+        .story-text .highlight { color: #f0c040; font-weight: bold; }
+        .story-text .whisper { color: #c084fc; font-style: italic; }
+        .story-text .npc { color: #22c55e; font-weight: bold; }
+
+        .dialogue-box {
+            background: #0a0a1a;
+            border-left: 4px solid #22c55e;
+            border-radius: 0 8px 8px 0;
+            padding: 0.8rem 1rem;
+            margin: 1rem 0;
+        }
+        .dialogue-box .speaker { color: #22c55e; font-weight: bold; font-size: 0.85rem; }
+        .dialogue-box .speech { font-style: italic; font-size: 0.9rem; margin-top: 0.3rem; line-height: 1.5; color: #d0d0e0; }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .choice-btn {
+            background: #16213e;
+            border: 2px solid #4a3480;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.95rem;
+            text-align: left;
+            transition: border-color 0.2s, background 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+        }
+        .choice-btn:hover { border-color: #c084fc; background: #1a1a3e; }
+        .choice-num {
+            background: #4a3480;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .choice-content { flex: 1; }
+        .choice-content .choice-text { font-size: 0.9rem; }
+        .choice-content .choice-req {
+            font-size: 0.7rem;
+            margin-top: 3px;
+        }
+        .choice-content .choice-req.has { color: #22c55e; }
+        .choice-content .choice-req.need { color: #e94560; }
+        .choice-content .choice-consequence {
+            font-size: 0.7rem;
+            color: #a0a0c0;
+            margin-top: 2px;
+        }
+
+        .status-bar {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .status-bar h3 { color: #f0c040; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .rep-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        .rep-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.5rem;
+            background: #0f3460;
+            border-radius: 6px;
+        }
+        .rep-item .rep-name { color: #e0e0e0; }
+        .rep-item .rep-val.positive { color: #22c55e; }
+        .rep-item .rep-val.negative { color: #e94560; }
+        .rep-item .rep-val.neutral { color: #a0a0c0; }
+
+        .inventory-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        .inv-item {
+            background: #0f3460;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">← Back to Games</a>
+        <h3>📜 The Whispering Walls</h3>
+        <span style="color:#606080; font-size:0.8rem;">WIREFRAME</span>
+    </div>
+
+    <div class="game-container">
+        <div class="page-title">📜 The Whispering Walls</div>
+
+        <div class="chapter-header">
+            <div><span class="ch-label">Chapter:</span> <span class="ch-value">3 — The Hidden Library</span></div>
+            <div><span class="ch-label">Scene:</span> <span class="ch-value">7 / 12</span></div>
+            <div><span class="ch-label">Path:</span> <span class="ch-value">🌙 Mystery</span></div>
+        </div>
+
+        <div class="story-panel">
+            <div class="story-scene">🏛️</div>
+            <div class="story-location">📍 The Restricted Section — Midnight</div>
+
+            <div class="story-text">
+                <p>The moonlight filters through the stained glass windows, casting <span class="highlight">prismatic shadows</span> across the dusty shelves. You've made it past the enchanted lock using the <span class="highlight">Silver Key</span> you found in Chapter 2.</p>
+                <br>
+                <p>The books seem to <span class="whisper">whisper</span> as you walk past them. One tome on the highest shelf glows with a faint <span class="highlight">purple aura</span>. But before you can reach for it, a voice breaks the silence.</p>
+            </div>
+
+            <div class="dialogue-box">
+                <div class="speaker">🧙‍♂️ Professor Thornwell</div>
+                <div class="speech">"I thought I might find a student here tonight. The question is — are you here to learn, or to steal? Choose your next words carefully, young wizard."</div>
+            </div>
+        </div>
+
+        <div class="choices">
+            <button class="choice-btn">
+                <span class="choice-num">1</span>
+                <div class="choice-content">
+                    <div class="choice-text">🗣️ "I'm researching the Whispering Curse, Professor. I believe the answer is in that book."</div>
+                    <div class="choice-consequence">→ Honest approach · May improve Thornwell relationship</div>
+                </div>
+            </button>
+            <button class="choice-btn">
+                <span class="choice-num">2</span>
+                <div class="choice-content">
+                    <div class="choice-text">🎭 Lie: "I got lost on my way back from the bathroom, Professor."</div>
+                    <div class="choice-consequence">→ Deceptive · Risk: Thornwell may see through the lie</div>
+                </div>
+            </button>
+            <button class="choice-btn">
+                <span class="choice-num">3</span>
+                <div class="choice-content">
+                    <div class="choice-text">🔮 Use the Charm of Persuasion to make him forget he saw you</div>
+                    <div class="choice-req has">✅ Requires: Charm of Persuasion (owned)</div>
+                    <div class="choice-consequence">→ Magical · Risky if it fails · Uses spell charge</div>
+                </div>
+            </button>
+            <button class="choice-btn" style="opacity:0.5;">
+                <span class="choice-num">4</span>
+                <div class="choice-content">
+                    <div class="choice-text">🌀 Activate the Invisibility Cloak and slip away</div>
+                    <div class="choice-req need">🔒 Requires: Invisibility Cloak (not found yet)</div>
+                    <div class="choice-consequence">→ Locked path · Find the cloak first</div>
+                </div>
+            </button>
+        </div>
+
+        <div class="status-bar">
+            <h3>📊 Reputation & Relationships</h3>
+            <div class="rep-grid">
+                <div class="rep-item">
+                    <span class="rep-name">🧙‍♂️ Prof. Thornwell</span>
+                    <span class="rep-val positive">+15 Respect</span>
+                </div>
+                <div class="rep-item">
+                    <span class="rep-name">🧙‍♀️ Prof. Nightshade</span>
+                    <span class="rep-val negative">-5 Suspicious</span>
+                </div>
+                <div class="rep-item">
+                    <span class="rep-name">👨‍🎓 Fellow Students</span>
+                    <span class="rep-val positive">+22 Popular</span>
+                </div>
+                <div class="rep-item">
+                    <span class="rep-name">🏰 School Council</span>
+                    <span class="rep-val neutral">0 Neutral</span>
+                </div>
+            </div>
+
+            <h3 style="margin-top:0.8rem;">🎒 Story Items</h3>
+            <div class="inventory-row">
+                <span class="inv-item">🔑 Silver Key</span>
+                <span class="inv-item">🔮 Charm of Persuasion</span>
+                <span class="inv-item">📜 Thornwell's Note</span>
+                <span class="inv-item">🕯️ Enchanted Candle</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wizard Chess — Wireframe</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #1a1a2e; color: #e0e0e0; min-height: 100vh; }
+        .nav { background: #0f3460; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav a { color: #f0c040; text-decoration: none; font-size: 0.9rem; }
+        .nav h3 { color: #e0e0e0; font-size: 0.95rem; }
+        .game-container { max-width: 750px; margin: 1rem auto; padding: 0 1rem; }
+        .page-title { text-align: center; padding: 1rem; color: #f0c040; font-size: 1.4rem; }
+
+        .match-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .player-info { text-align: center; }
+        .player-info .name { font-weight: bold; font-size: 1rem; }
+        .player-info .rating { font-size: 0.8rem; color: #a0a0c0; }
+        .player-info .captured { font-size: 0.8rem; color: #a0a0c0; margin-top: 0.3rem; }
+        .vs-text { color: #e94560; font-size: 1.2rem; font-weight: bold; }
+
+        .board-wrapper { text-align: center; margin-bottom: 1rem; }
+        .board {
+            display: inline-grid;
+            grid-template-columns: repeat(6, 60px);
+            grid-template-rows: repeat(6, 60px);
+            border: 3px solid #4a3480;
+            border-radius: 4px;
+        }
+        .cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.2s;
+        }
+        .cell.light { background: #2d2b55; }
+        .cell.dark { background: #1a1a3e; }
+        .cell.selected { background: #4a3480 !important; box-shadow: inset 0 0 0 3px #f0c040; }
+        .cell.highlight { background: #22c55e33 !important; }
+        .cell.attack { background: #e9456033 !important; }
+        .cell:hover { filter: brightness(1.2); }
+        .cell .ability-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 0.5rem;
+            background: #f0c040;
+            color: #1a1a2e;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .info-panels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .panel {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        .panel h3 { color: #f0c040; margin-bottom: 0.5rem; font-size: 0.9rem; }
+
+        .piece-info {
+            text-align: center;
+            padding: 0.5rem;
+        }
+        .piece-info .piece-icon { font-size: 2.5rem; }
+        .piece-info .piece-name { font-size: 1rem; color: #c084fc; font-weight: bold; margin: 0.3rem 0; }
+        .piece-info .piece-desc { font-size: 0.8rem; color: #a0a0c0; line-height: 1.4; }
+        .ability-info {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #0a0a1a;
+            border-radius: 6px;
+        }
+        .ability-info .ability-name { color: #f0c040; font-size: 0.85rem; font-weight: bold; }
+        .ability-info .ability-desc { color: #a0a0c0; font-size: 0.75rem; margin-top: 2px; }
+        .ability-info .ability-status { font-size: 0.7rem; margin-top: 3px; }
+        .ability-info .ability-status.ready { color: #22c55e; }
+        .ability-info .ability-status.used { color: #e94560; }
+
+        .move-log {
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        .move-entry {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            padding: 3px 0;
+            border-bottom: 1px solid #0a0a1a;
+        }
+        .move-entry .turn-num { color: #606080; width: 30px; }
+        .move-entry .white-move { flex: 1; }
+        .move-entry .black-move { flex: 1; color: #a0a0c0; }
+
+        .action-row {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        .action-btn {
+            padding: 0.5rem 1.2rem;
+            background: #0f3460;
+            border: 2px solid #1a4a8a;
+            border-radius: 8px;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .action-btn:hover { border-color: #f0c040; }
+        .action-btn.ability {
+            border-color: #c084fc;
+            color: #c084fc;
+        }
+        .action-btn.ability:hover { background: #c084fc22; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">← Back to Games</a>
+        <h3>♟️ Wizard Chess</h3>
+        <span style="color:#606080; font-size:0.8rem;">WIREFRAME</span>
+    </div>
+
+    <div class="game-container">
+        <div class="page-title">♟️ Wizard Chess</div>
+
+        <div class="match-info">
+            <div class="player-info">
+                <div class="name">🧙 Aldric the Wise</div>
+                <div class="rating">ELO: 1,245 · ⬜ White</div>
+                <div class="captured">Captured: 🦇</div>
+            </div>
+            <div class="vs-text">VS</div>
+            <div class="player-info">
+                <div class="name">🧙‍♀️ Luna Darkwood</div>
+                <div class="rating">ELO: 1,310 · ⬛ Black</div>
+                <div class="captured">Captured: 🐺 🦉</div>
+            </div>
+        </div>
+
+        <div class="board-wrapper">
+            <div class="board">
+                <!-- Row 1 (top - black back rank) -->
+                <div class="cell light">🦇</div>
+                <div class="cell dark">🐍</div>
+                <div class="cell light">🧙‍♀️</div>
+                <div class="cell dark">👑</div>
+                <div class="cell light">🐍</div>
+                <div class="cell dark">🦇</div>
+                <!-- Row 2 -->
+                <div class="cell dark">🕷️</div>
+                <div class="cell light">🕷️</div>
+                <div class="cell dark"></div>
+                <div class="cell light">🕷️</div>
+                <div class="cell dark">🕷️</div>
+                <div class="cell light">🕷️</div>
+                <!-- Row 3 -->
+                <div class="cell light"></div>
+                <div class="cell dark"></div>
+                <div class="cell light attack">🕷️</div>
+                <div class="cell dark highlight"></div>
+                <div class="cell light"></div>
+                <div class="cell dark"></div>
+                <!-- Row 4 -->
+                <div class="cell dark highlight"></div>
+                <div class="cell light"></div>
+                <div class="cell dark selected">🐺<span class="ability-badge">✦</span></div>
+                <div class="cell light highlight"></div>
+                <div class="cell dark"></div>
+                <div class="cell light"></div>
+                <!-- Row 5 -->
+                <div class="cell light">🦊</div>
+                <div class="cell dark">🦊</div>
+                <div class="cell light">🦊</div>
+                <div class="cell dark"></div>
+                <div class="cell light">🦊</div>
+                <div class="cell dark">🦊</div>
+                <!-- Row 6 (bottom - white back rank) -->
+                <div class="cell dark">🦉</div>
+                <div class="cell light">🐺</div>
+                <div class="cell dark">🧙</div>
+                <div class="cell light">👑</div>
+                <div class="cell dark"></div>
+                <div class="cell light">🦉</div>
+            </div>
+        </div>
+
+        <div class="info-panels">
+            <div class="panel">
+                <h3>📋 Selected Piece</h3>
+                <div class="piece-info">
+                    <div class="piece-icon">🐺</div>
+                    <div class="piece-name">Shadow Wolf</div>
+                    <div class="piece-desc">Moves like a Knight — L-shaped jumps over other pieces.</div>
+                    <div class="ability-info">
+                        <div class="ability-name">✦ Pounce</div>
+                        <div class="ability-desc">Can move twice in one turn (once per game)</div>
+                        <div class="ability-status ready">✅ Ready to use</div>
+                    </div>
+                </div>
+                <div class="action-row">
+                    <button class="action-btn">Move</button>
+                    <button class="action-btn ability">✦ Use Ability</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>📜 Move History</h3>
+                <div class="move-log">
+                    <div class="move-entry"><span class="turn-num">5.</span><span class="white-move">🐺 c4→c3</span><span class="black-move">🕷️ c6→c5</span></div>
+                    <div class="move-entry"><span class="turn-num">4.</span><span class="white-move">🦊 d2→d3</span><span class="black-move">🐍 b6→c4</span></div>
+                    <div class="move-entry"><span class="turn-num">3.</span><span class="white-move">🦊 e2→e3</span><span class="black-move">🕷️ e6→e5</span></div>
+                    <div class="move-entry"><span class="turn-num">2.</span><span class="white-move">🦉 a1→b3</span><span class="black-move">🦇 f1→e3</span></div>
+                    <div class="move-entry"><span class="turn-num">1.</span><span class="white-move">🦊 c2→c4</span><span class="black-move">🕷️ d6→d5</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:1rem;">
+            <h3>🧩 Piece Legend</h3>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; font-size:0.8rem;">
+                <div>🦊/🕷️ Pawn — Standard movement</div>
+                <div>🐺/🐍 Knight — L-shaped; <em>Pounce</em></div>
+                <div>🦉/🦇 Bishop — Diagonal; <em>Phase</em></div>
+                <div>🦏/🦂 Rook — Straight lines; <em>Charge</em></div>
+                <div>🧙/🧙‍♀️ Queen — All directions; <em>Teleport</em></div>
+                <div>👑/👑 King — One step; <em>Shield</em></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

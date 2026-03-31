@@ -1,0 +1,60 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: wizard-rpg-db
+  namespace: wizard-rpg
+  labels:
+    app.kubernetes.io/name: wizard-rpg-db
+    app.kubernetes.io/part-of: wizard-rpg
+spec:
+  description: "PostgreSQL cluster for Wizard-RPG"
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.2
+
+  # Single instance — no HA (matches Proxmox VE single-node setup)
+  instances: 1
+
+  postgresql:
+    parameters:
+      shared_buffers: "256MB"
+      effective_cache_size: "512MB"
+      max_connections: "100"
+      log_statement: "ddl"
+      log_min_duration_statement: "1000"
+
+  bootstrap:
+    initdb:
+      database: wizard_rpg
+      owner: wizard_rpg
+      encoding: UTF8
+      localeCType: C
+      localeCollate: C
+
+  storage:
+    size: 5Gi
+    # Use the default storage class provided by k3s (local-path)
+    storageClass: local-path
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  monitoring:
+    enablePodMonitor: false
+
+  backup:
+    # Uncomment and configure for backup to S3/MinIO
+    # barmanObjectStore:
+    #   destinationPath: "s3://wizard-rpg-backups/"
+    #   endpointURL: "http://minio.minio:9000"
+    #   s3Credentials:
+    #     accessKeyId:
+    #       name: backup-s3-creds
+    #       key: ACCESS_KEY_ID
+    #     secretAccessKey:
+    #       name: backup-s3-creds
+    #       key: ACCESS_SECRET_KEY
+    retentionPolicy: "7d"

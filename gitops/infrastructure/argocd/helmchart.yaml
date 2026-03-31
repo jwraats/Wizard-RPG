@@ -1,0 +1,38 @@
+# ArgoCD Installation for k3s
+#
+# This HelmChart resource uses the k3s built-in Helm controller to install
+# ArgoCD. On k3s, HelmChart resources placed in the kube-system namespace
+# are automatically processed.
+#
+# If you prefer a manual install instead of using the k3s Helm controller:
+#   kubectl create namespace argocd
+#   kubectl apply -n argocd \
+#     -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+#
+# Or via Helm:
+#   helm repo add argo https://argoproj.github.io/argo-helm
+#   helm upgrade --install argocd argo/argo-cd \
+#     --namespace argocd --create-namespace \
+#     --version 6.7.3 \
+#     --set server.service.type=NodePort
+#
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: argocd
+  namespace: kube-system
+spec:
+  repo: https://argoproj.github.io/argo-helm
+  chart: argo-cd
+  version: "6.7.3"
+  targetNamespace: argocd
+  createNamespace: true
+  valuesContent: |-
+    server:
+      service:
+        type: NodePort
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        hosts:
+          - argocd.local
