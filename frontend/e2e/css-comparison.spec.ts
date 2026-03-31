@@ -66,8 +66,8 @@ for (const fw of frameworks) {
 
     // Wait for external CSS/fonts/JS to load
     await page.waitForLoadState('networkidle');
-    // Extra delay for web font rendering and JS execution
-    await page.waitForTimeout(2000);
+    // Extra delay for web font rendering and JS execution (Tailwind CDN needs time)
+    await page.waitForTimeout(3000);
 
     await page.screenshot({
       path: path.join(screenshotDir, `${fw.name}.png`),
