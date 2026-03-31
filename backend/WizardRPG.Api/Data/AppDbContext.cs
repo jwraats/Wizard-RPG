@@ -31,6 +31,7 @@ public class AppDbContext : DbContext
     public DbSet<StoryChapter> StoryChapters => Set<StoryChapter>();
     public DbSet<StoryChoice> StoryChoices => Set<StoryChoice>();
     public DbSet<PlayerStoryProgress> PlayerStoryProgress => Set<PlayerStoryProgress>();
+    public DbSet<ChessMatch> ChessMatches => Set<ChessMatch>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -274,6 +275,25 @@ public class AppDbContext : DbContext
              .WithMany()
              .HasForeignKey(p => p.CurrentChapterId)
              .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<ChessMatch>(e =>
+        {
+            e.HasKey(m => m.Id);
+            e.HasOne(m => m.Challenger)
+             .WithMany()
+             .HasForeignKey(m => m.ChallengerId)
+             .OnDelete(DeleteBehavior.Restrict);
+            e.HasOne(m => m.Defender)
+             .WithMany()
+             .HasForeignKey(m => m.DefenderId)
+             .OnDelete(DeleteBehavior.Restrict)
+             .IsRequired(false);
+            e.HasOne(m => m.Winner)
+             .WithMany()
+             .HasForeignKey(m => m.WinnerId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
         });
     }
 }

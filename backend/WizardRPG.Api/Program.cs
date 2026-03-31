@@ -63,6 +63,7 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IDungeonCrawlerService, DungeonCrawlerService>();
 builder.Services.AddScoped<ICreatureTamingService, CreatureTamingService>();
 builder.Services.AddScoped<IWhisperingWallsService, WhisperingWallsService>();
+builder.Services.AddScoped<IWizardChessService, WizardChessService>();
 builder.Services.AddSingleton<ILLMNarratorService, PlaceholderNarratorService>();
 
 // SignalR
