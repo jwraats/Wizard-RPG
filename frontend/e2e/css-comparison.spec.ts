@@ -30,8 +30,16 @@ let serverPort: number;
 
 test.beforeAll(async () => {
   server = http.createServer((req, res) => {
-    const filePath = path.join(htmlDir, req.url === '/' ? 'index.html' : req.url!);
-    const content = fs.existsSync(filePath) ? fs.readFileSync(filePath) : null;
+    const basename = path.basename(req.url ?? '/');
+    const safeName = basename.endsWith('.html') ? basename : 'index.html';
+    const filePath = path.join(htmlDir, safeName);
+    const resolved = path.resolve(filePath);
+    if (!resolved.startsWith(htmlDir)) {
+      res.writeHead(403);
+      res.end('Forbidden');
+      return;
+    }
+    const content = fs.existsSync(resolved) ? fs.readFileSync(resolved) : null;
     if (content) {
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
       res.end(content);
