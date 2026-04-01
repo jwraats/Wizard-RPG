@@ -10,8 +10,7 @@ services:
       context: ./backend
       dockerfile: WizardRPG.Api/Dockerfile
     ports:
-      - "5000:8080"
-      - "5001:443"
+      - "5050:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=wizardrpg;Username=wizard;Password=magic123
@@ -28,13 +27,15 @@ services:
         condition: service_healthy
 
   frontend:
-    image: node:20-alpine
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     working_dir: /app
     command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_BASE_URL=http://localhost:5000
+      - VITE_API_BASE_URL=http://localhost:5050
     volumes:
       - ./frontend:/app
       - /app/node_modules
