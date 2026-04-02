@@ -19,6 +19,19 @@ public class AppDbContext : DbContext
     public DbSet<Battle> Battles => Set<Battle>();
     public DbSet<BattleTurn> BattleTurns => Set<BattleTurn>();
     public DbSet<Spell> Spells => Set<Spell>();
+    public DbSet<PotionRecipe> PotionRecipes => Set<PotionRecipe>();
+    public DbSet<PotionIngredient> PotionIngredients => Set<PotionIngredient>();
+    public DbSet<RecipeIngredient> RecipeIngredients => Set<RecipeIngredient>();
+    public DbSet<BrewAttempt> BrewAttempts => Set<BrewAttempt>();
+    public DbSet<QuizQuestion> QuizQuestions => Set<QuizQuestion>();
+    public DbSet<QuizAttempt> QuizAttempts => Set<QuizAttempt>();
+    public DbSet<DungeonRun> DungeonRuns => Set<DungeonRun>();
+    public DbSet<Creature> Creatures => Set<Creature>();
+    public DbSet<PlayerCreature> PlayerCreatures => Set<PlayerCreature>();
+    public DbSet<StoryChapter> StoryChapters => Set<StoryChapter>();
+    public DbSet<StoryChoice> StoryChoices => Set<StoryChoice>();
+    public DbSet<PlayerStoryProgress> PlayerStoryProgress => Set<PlayerStoryProgress>();
+    public DbSet<ChessMatch> ChessMatches => Set<ChessMatch>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -150,6 +163,137 @@ public class AppDbContext : DbContext
              .WithMany(s => s.BattleTurns)
              .HasForeignKey(bt => bt.SpellId)
              .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<PotionRecipe>(e =>
+        {
+            e.HasKey(r => r.Id);
+        });
+
+        modelBuilder.Entity<PotionIngredient>(e =>
+        {
+            e.HasKey(i => i.Id);
+            e.Property(i => i.Price).HasDefaultValue(10L);
+        });
+
+        modelBuilder.Entity<RecipeIngredient>(e =>
+        {
+            e.HasKey(ri => ri.Id);
+            e.HasOne(ri => ri.Recipe)
+             .WithMany(r => r.Ingredients)
+             .HasForeignKey(ri => ri.RecipeId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(ri => ri.Ingredient)
+             .WithMany(i => i.RecipeIngredients)
+             .HasForeignKey(ri => ri.IngredientId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<BrewAttempt>(e =>
+        {
+            e.HasKey(a => a.Id);
+            e.HasOne(a => a.Player)
+             .WithMany(p => p.BrewAttempts)
+             .HasForeignKey(a => a.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(a => a.Recipe)
+             .WithMany(r => r.BrewAttempts)
+             .HasForeignKey(a => a.RecipeId)
+             .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<QuizQuestion>(e =>
+        {
+            e.HasKey(q => q.Id);
+        });
+
+        modelBuilder.Entity<QuizAttempt>(e =>
+        {
+            e.HasKey(a => a.Id);
+            e.HasOne(a => a.Player)
+             .WithMany(p => p.QuizAttempts)
+             .HasForeignKey(a => a.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<DungeonRun>(e =>
+        {
+            e.HasKey(r => r.Id);
+            e.HasOne(r => r.Player)
+             .WithMany(p => p.DungeonRuns)
+             .HasForeignKey(r => r.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.Property(r => r.GoldCollected).HasDefaultValue(0L);
+            e.Property(r => r.CurrentFloor).HasDefaultValue(1);
+        });
+
+        modelBuilder.Entity<Creature>(e =>
+        {
+            e.HasKey(c => c.Id);
+        });
+
+        modelBuilder.Entity<PlayerCreature>(e =>
+        {
+            e.HasKey(pc => pc.Id);
+            e.HasOne(pc => pc.Player)
+             .WithMany(p => p.PlayerCreatures)
+             .HasForeignKey(pc => pc.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(pc => pc.Creature)
+             .WithMany(c => c.PlayerCreatures)
+             .HasForeignKey(pc => pc.CreatureId)
+             .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<StoryChapter>(e =>
+        {
+            e.HasKey(c => c.Id);
+        });
+
+        modelBuilder.Entity<StoryChoice>(e =>
+        {
+            e.HasKey(c => c.Id);
+            e.HasOne(c => c.Chapter)
+             .WithMany(ch => ch.Choices)
+             .HasForeignKey(c => c.ChapterId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(c => c.NextChapter)
+             .WithMany()
+             .HasForeignKey(c => c.NextChapterId)
+             .OnDelete(DeleteBehavior.Restrict)
+             .IsRequired(false);
+        });
+
+        modelBuilder.Entity<PlayerStoryProgress>(e =>
+        {
+            e.HasKey(p => p.Id);
+            e.HasOne(p => p.Player)
+             .WithMany(pl => pl.StoryProgress)
+             .HasForeignKey(p => p.PlayerId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(p => p.CurrentChapter)
+             .WithMany()
+             .HasForeignKey(p => p.CurrentChapterId)
+             .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<ChessMatch>(e =>
+        {
+            e.HasKey(m => m.Id);
+            e.HasOne(m => m.Challenger)
+             .WithMany()
+             .HasForeignKey(m => m.ChallengerId)
+             .OnDelete(DeleteBehavior.Restrict);
+            e.HasOne(m => m.Defender)
+             .WithMany()
+             .HasForeignKey(m => m.DefenderId)
+             .OnDelete(DeleteBehavior.Restrict)
+             .IsRequired(false);
+            e.HasOne(m => m.Winner)
+             .WithMany()
+             .HasForeignKey(m => m.WinnerId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
         });
     }
 }

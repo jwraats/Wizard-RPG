@@ -55,9 +55,15 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IBankService, BankService>();
 builder.Services.AddScoped<IBroomGameService, BroomGameService>();
+builder.Services.AddScoped<IQuizService, QuizService>();
+builder.Services.AddScoped<IPotionBrewingService, PotionBrewingService>();
 builder.Services.AddScoped<IFellowshipService, FellowshipService>();
 builder.Services.AddScoped<IBattleService, BattleService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IDungeonCrawlerService, DungeonCrawlerService>();
+builder.Services.AddScoped<ICreatureTamingService, CreatureTamingService>();
+builder.Services.AddScoped<IWhisperingWallsService, WhisperingWallsService>();
+builder.Services.AddScoped<IWizardChessService, WizardChessService>();
 builder.Services.AddSingleton<ILLMNarratorService, PlaceholderNarratorService>();
 
 // SignalR

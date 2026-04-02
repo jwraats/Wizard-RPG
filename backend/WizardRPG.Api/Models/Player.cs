@@ -23,4 +23,9 @@ public class Player
     public ICollection<BankItem> BankItems { get; set; } = new List<BankItem>();
     public ICollection<BroomBet> BroomBets { get; set; } = new List<BroomBet>();
     public ICollection<FellowshipMember> FellowshipMemberships { get; set; } = new List<FellowshipMember>();
+    public ICollection<BrewAttempt> BrewAttempts { get; set; } = new List<BrewAttempt>();
+    public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
+    public ICollection<DungeonRun> DungeonRuns { get; set; } = new List<DungeonRun>();
+    public ICollection<PlayerCreature> PlayerCreatures { get; set; } = new List<PlayerCreature>();
+    public ICollection<PlayerStoryProgress> StoryProgress { get; set; } = new List<PlayerStoryProgress>();
 }
