@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wizard RPG – DaisyUI</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+
+  <!-- Navigation -->
+  <div class="navbar bg-base-200 border-b border-base-300">
+    <div class="flex-1">
+      <a class="btn btn-ghost text-xl text-warning">🧙 Wizard Academy RPG</a>
+    </div>
+    <div class="flex-none gap-2">
+      <ul class="menu menu-horizontal px-1">
+        <li><a>Dashboard</a></li>
+        <li><a>Spells</a></li>
+        <li><a>Battle</a></li>
+        <li><a>Leaderboard</a></li>
+      </ul>
+      <div class="badge badge-primary">Level 12</div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero bg-gradient-to-b from-base-200 to-base-100 py-16">
+    <div class="hero-content text-center">
+      <div class="max-w-xl">
+        <h1 class="text-4xl font-bold">Welcome, Archmage!</h1>
+        <p class="py-4 opacity-60">Master the arcane arts, duel rival wizards, brew powerful potions, and rise through the ranks of the Academy.</p>
+        <div class="flex gap-3 justify-center">
+          <button class="btn btn-primary">Start Duel</button>
+          <button class="btn btn-outline btn-warning">Brew Potion</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Character Cards -->
+  <section class="max-w-5xl mx-auto py-10 px-4">
+    <h2 class="text-2xl font-bold mb-6">Your Party</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+          <div class="flex items-center gap-3">
+            <div class="avatar placeholder">
+              <div class="bg-primary text-primary-content w-12 rounded-full"><span class="text-xl">🧙</span></div>
+            </div>
+            <div>
+              <h3 class="card-title text-base">Eldrin the Wise</h3>
+              <p class="text-xs opacity-50">Fire Mage · Lvl 12</p>
+            </div>
+          </div>
+          <div class="mt-3 space-y-2">
+            <div><span class="text-xs opacity-50">HP</span><progress class="progress progress-success w-full" value="85" max="100"></progress></div>
+            <div><span class="text-xs opacity-50">Mana</span><progress class="progress progress-info w-full" value="60" max="100"></progress></div>
+          </div>
+          <div class="card-actions mt-2">
+            <div class="badge badge-error badge-outline">🔥 Fire</div>
+            <div class="badge badge-warning badge-outline">⚡ Lightning</div>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+          <div class="flex items-center gap-3">
+            <div class="avatar placeholder">
+              <div class="bg-info text-info-content w-12 rounded-full"><span class="text-xl">🧝</span></div>
+            </div>
+            <div>
+              <h3 class="card-title text-base">Lyra Frostweaver</h3>
+              <p class="text-xs opacity-50">Ice Sorceress · Lvl 10</p>
+            </div>
+          </div>
+          <div class="mt-3 space-y-2">
+            <div><span class="text-xs opacity-50">HP</span><progress class="progress progress-success w-full" value="70" max="100"></progress></div>
+            <div><span class="text-xs opacity-50">Mana</span><progress class="progress progress-info w-full" value="90" max="100"></progress></div>
+          </div>
+          <div class="card-actions mt-2">
+            <div class="badge badge-info badge-outline">❄️ Ice</div>
+            <div class="badge badge-secondary badge-outline">✨ Arcane</div>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+          <div class="flex items-center gap-3">
+            <div class="avatar placeholder">
+              <div class="bg-success text-success-content w-12 rounded-full"><span class="text-xl">🧌</span></div>
+            </div>
+            <div>
+              <h3 class="card-title text-base">Thorin Earthshaker</h3>
+              <p class="text-xs opacity-50">Earth Druid · Lvl 8</p>
+            </div>
+          </div>
+          <div class="mt-3 space-y-2">
+            <div><span class="text-xs opacity-50">HP</span><progress class="progress progress-success w-full" value="95" max="100"></progress></div>
+            <div><span class="text-xs opacity-50">Mana</span><progress class="progress progress-info w-full" value="40" max="100"></progress></div>
+          </div>
+          <div class="card-actions mt-2">
+            <div class="badge badge-success badge-outline">🌿 Earth</div>
+            <div class="badge badge-warning badge-outline">🛡️ Defense</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spell Table -->
+  <section class="max-w-5xl mx-auto py-4 px-4">
+    <h2 class="text-2xl font-bold mb-4">Known Spells</h2>
+    <div class="overflow-x-auto">
+      <table class="table table-zebra">
+        <thead><tr><th>Spell</th><th>Element</th><th>Power</th><th>Mana Cost</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Fireball</td><td>🔥 Fire</td><td>45</td><td>30</td><td><button class="btn btn-xs btn-outline btn-warning">Cast</button></td></tr>
+          <tr><td>Frost Nova</td><td>❄️ Ice</td><td>35</td><td>25</td><td><button class="btn btn-xs btn-outline btn-warning">Cast</button></td></tr>
+          <tr><td>Lightning Bolt</td><td>⚡ Lightning</td><td>55</td><td>40</td><td><button class="btn btn-xs btn-outline btn-warning">Cast</button></td></tr>
+          <tr><td>Earthquake</td><td>🌿 Earth</td><td>60</td><td>50</td><td><button class="btn btn-xs btn-outline btn-warning">Cast</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Login Form -->
+  <section class="max-w-md mx-auto py-10 px-4">
+    <h2 class="text-2xl font-bold mb-4 text-center">Sign In to Academy</h2>
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <div class="form-control">
+          <label class="label"><span class="label-text">Email</span></label>
+          <input type="email" placeholder="wizard@academy.com" class="input input-bordered">
+        </div>
+        <div class="form-control">
+          <label class="label"><span class="label-text">Password</span></label>
+          <input type="password" placeholder="••••••••" class="input input-bordered">
+        </div>
+        <div class="form-control">
+          <label class="label cursor-pointer justify-start gap-2">
+            <input type="checkbox" class="checkbox checkbox-sm">
+            <span class="label-text">Remember me</span>
+          </label>
+        </div>
+        <button class="btn btn-primary w-full mt-2">Enter the Academy</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer footer-center py-6 bg-base-200 text-base-content border-t border-base-300">
+    <p class="opacity-50">Wizard Academy RPG · Styled with <strong>DaisyUI 4</strong> · Tailwind CSS component library</p>
+  </footer>
+
+</body>
+</html>

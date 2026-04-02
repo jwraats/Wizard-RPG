@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wizard RPG – Pico CSS</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.violet.min.css">
+  <style>
+    :root { --pico-border-radius: 0.75rem; }
+    body { padding: 0; }
+    nav { background: var(--pico-card-background-color); border-bottom: 1px solid var(--pico-muted-border-color); padding: 0.5rem 1rem; }
+    .hero { text-align: center; padding: 3rem 1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .character-card { padding: 1.25rem; }
+    .avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .avatar-purple { background: #7c3aed; }
+    .avatar-blue { background: #0ea5e9; }
+    .avatar-green { background: #22c55e; }
+    .flex-row { display: flex; align-items: center; gap: 0.75rem; }
+    .tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; margin-right: 0.25rem; }
+    .tag-fire { background: rgba(220,38,38,0.2); color: #fca5a5; }
+    .tag-ice { background: rgba(14,165,233,0.2); color: #7dd3fc; }
+    .tag-lightning { background: rgba(234,179,8,0.2); color: #fde68a; }
+    .tag-earth { background: rgba(34,197,94,0.2); color: #86efac; }
+    .tag-arcane { background: rgba(168,85,247,0.2); color: #d8b4fe; }
+    .tag-defense { background: rgba(245,158,11,0.2); color: #fcd34d; }
+    .text-gold { color: #f0a500; }
+    .text-muted { color: var(--pico-muted-color); }
+    .text-center { text-align: center; }
+    progress { margin: 0.25rem 0; height: 0.5rem; }
+    footer { text-align: center; padding: 1.5rem; border-top: 1px solid var(--pico-muted-border-color); }
+    .form-section { max-width: 450px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><strong class="text-gold">🧙 Wizard Academy RPG</strong></li>
+    </ul>
+    <ul>
+      <li><a href="#">Dashboard</a></li>
+      <li><a href="#">Spells</a></li>
+      <li><a href="#">Battle</a></li>
+      <li><a href="#">Leaderboard</a></li>
+      <li><kbd>Level 12</kbd></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Welcome, Archmage!</h1>
+      <p class="text-muted">Master the arcane arts, duel rival wizards, brew powerful potions, and rise through the ranks of the Academy.</p>
+      <div>
+        <button>Start Duel</button>
+        <button class="outline">Brew Potion</button>
+      </div>
+    </section>
+
+    <!-- Character Cards -->
+    <section>
+      <h2>Your Party</h2>
+      <div class="grid-3">
+        <article class="character-card">
+          <div class="flex-row">
+            <div class="avatar avatar-purple">🧙</div>
+            <div><strong>Eldrin the Wise</strong><br><small class="text-muted">Fire Mage · Lvl 12</small></div>
+          </div>
+          <p class="text-muted" style="margin-top:0.75rem;margin-bottom:0.1rem;font-size:0.85rem">HP</p>
+          <progress value="85" max="100"></progress>
+          <p class="text-muted" style="margin-bottom:0.1rem;font-size:0.85rem">Mana</p>
+          <progress value="60" max="100"></progress>
+          <div style="margin-top:0.5rem"><span class="tag tag-fire">🔥 Fire</span><span class="tag tag-lightning">⚡ Lightning</span></div>
+        </article>
+        <article class="character-card">
+          <div class="flex-row">
+            <div class="avatar avatar-blue">🧝</div>
+            <div><strong>Lyra Frostweaver</strong><br><small class="text-muted">Ice Sorceress · Lvl 10</small></div>
+          </div>
+          <p class="text-muted" style="margin-top:0.75rem;margin-bottom:0.1rem;font-size:0.85rem">HP</p>
+          <progress value="70" max="100"></progress>
+          <p class="text-muted" style="margin-bottom:0.1rem;font-size:0.85rem">Mana</p>
+          <progress value="90" max="100"></progress>
+          <div style="margin-top:0.5rem"><span class="tag tag-ice">❄️ Ice</span><span class="tag tag-arcane">✨ Arcane</span></div>
+        </article>
+        <article class="character-card">
+          <div class="flex-row">
+            <div class="avatar avatar-green">🧌</div>
+            <div><strong>Thorin Earthshaker</strong><br><small class="text-muted">Earth Druid · Lvl 8</small></div>
+          </div>
+          <p class="text-muted" style="margin-top:0.75rem;margin-bottom:0.1rem;font-size:0.85rem">HP</p>
+          <progress value="95" max="100"></progress>
+          <p class="text-muted" style="margin-bottom:0.1rem;font-size:0.85rem">Mana</p>
+          <progress value="40" max="100"></progress>
+          <div style="margin-top:0.5rem"><span class="tag tag-earth">🌿 Earth</span><span class="tag tag-defense">🛡️ Defense</span></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Spell Table -->
+    <section>
+      <h2>Known Spells</h2>
+      <div class="overflow-auto">
+        <table>
+          <thead><tr><th>Spell</th><th>Element</th><th>Power</th><th>Mana Cost</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>Fireball</td><td>🔥 Fire</td><td>45</td><td>30</td><td><a href="#" role="button" class="outline secondary" style="padding:0.25rem 0.75rem;font-size:0.8rem">Cast</a></td></tr>
+            <tr><td>Frost Nova</td><td>❄️ Ice</td><td>35</td><td>25</td><td><a href="#" role="button" class="outline secondary" style="padding:0.25rem 0.75rem;font-size:0.8rem">Cast</a></td></tr>
+            <tr><td>Lightning Bolt</td><td>⚡ Lightning</td><td>55</td><td>40</td><td><a href="#" role="button" class="outline secondary" style="padding:0.25rem 0.75rem;font-size:0.8rem">Cast</a></td></tr>
+            <tr><td>Earthquake</td><td>🌿 Earth</td><td>60</td><td>50</td><td><a href="#" role="button" class="outline secondary" style="padding:0.25rem 0.75rem;font-size:0.8rem">Cast</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Login Form -->
+    <section class="form-section">
+      <h2 class="text-center">Sign In to Academy</h2>
+      <article>
+        <form>
+          <label>Email
+            <input type="email" placeholder="wizard@academy.com">
+          </label>
+          <label>Password
+            <input type="password" placeholder="••••••••">
+          </label>
+          <label>
+            <input type="checkbox" role="switch"> Remember me
+          </label>
+          <button type="submit">Enter the Academy</button>
+        </form>
+      </article>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p class="text-muted">Wizard Academy RPG · Styled with <strong>Pico CSS v2</strong> · Minimal, semantic, classless-first CSS</p>
+  </footer>
+
+</body>
+</html>

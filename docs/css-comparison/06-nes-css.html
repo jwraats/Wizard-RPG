@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wizard RPG – NES.css (Retro 8-bit)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet">
+  <style>
+    * { font-family: 'Press Start 2P', cursive; }
+    body { background: #212529; color: #e0e0e0; padding: 0; margin: 0; font-size: 12px; }
+    .nes-container { background: #2d2d44; border-color: #5a5a8a; color: #e0e0e0; }
+    .nes-container.is-dark { background: #1a1a2e; }
+    .nes-container.with-title > .title { background: #212529; color: #f0a500; }
+    nav { background: #1a1a2e; padding: 16px 24px; border-bottom: 4px solid #5a5a8a; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    nav a { color: #ccc; text-decoration: none; font-size: 10px; margin: 0 8px; }
+    nav a:hover { color: #f0a500; }
+    .text-gold { color: #f0a500; }
+    .hero { text-align: center; padding: 40px 20px; background: linear-gradient(to bottom, #1a1a2e, #212529); }
+    .hero h1 { font-size: 20px; margin-bottom: 12px; }
+    .hero p { font-size: 10px; color: #888; max-width: 500px; margin: 0 auto 20px; line-height: 1.8; }
+    .main-content { max-width: 900px; margin: 0 auto; padding: 20px; }
+    .party-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .avatar-circle { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 3px solid #5a5a8a; }
+    .flex-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .stat-label { font-size: 8px; color: #888; margin-bottom: 2px; }
+    .nes-progress { height: 16px; margin-bottom: 8px; }
+    .spell-tag { display: inline-block; font-size: 8px; margin-right: 4px; padding: 2px 6px; border: 2px solid; }
+    .spell-tag.fire { border-color: #dc3545; color: #fca5a5; }
+    .spell-tag.ice { border-color: #0dcaf0; color: #7dd3fc; }
+    .spell-tag.lightning { border-color: #ffc107; color: #fde68a; }
+    .spell-tag.earth { border-color: #198754; color: #86efac; }
+    .spell-tag.arcane { border-color: #a855f7; color: #d8b4fe; }
+    .spell-tag.defense { border-color: #f59e0b; color: #fcd34d; }
+    table { width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 16px; }
+    th, td { padding: 8px 12px; text-align: left; border-bottom: 2px solid #5a5a8a; }
+    th { color: #888; font-size: 8px; text-transform: uppercase; }
+    .form-section { max-width: 450px; margin: 0 auto; }
+    input[type="email"], input[type="password"] { background: #1a1a2e; border: 3px solid #5a5a8a; color: #fff; padding: 8px; width: 100%; box-sizing: border-box; font-family: 'Press Start 2P', cursive; font-size: 10px; margin-bottom: 12px; }
+    input[type="email"]::placeholder, input[type="password"]::placeholder { color: #666; }
+    label.form-label { font-size: 9px; color: #888; display: block; margin-bottom: 4px; }
+    footer { text-align: center; padding: 20px; border-top: 4px solid #5a5a8a; font-size: 9px; color: #888; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <span class="text-gold" style="font-size:14px">🧙 Wizard Academy</span>
+    <div>
+      <a href="#">Dashboard</a>
+      <a href="#">Spells</a>
+      <a href="#">Battle</a>
+      <a href="#">Leaderboard</a>
+      <span class="nes-badge" style="margin-left:8px"><span class="is-primary" style="font-size:8px">LVL 12</span></span>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <i class="nes-icon is-large star"></i>
+    <h1>Welcome, Archmage!</h1>
+    <p>Master the arcane arts, duel rival wizards, brew powerful potions, and rise through the ranks of the Academy.</p>
+    <div>
+      <button type="button" class="nes-btn is-primary">Start Duel</button>
+      <button type="button" class="nes-btn is-warning">Brew Potion</button>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Character Cards -->
+    <section>
+      <h2 style="font-size:14px; margin-bottom:16px;">Your Party</h2>
+      <div class="party-grid">
+        <div class="nes-container is-dark">
+          <div class="flex-row">
+            <div class="avatar-circle">🧙</div>
+            <div><strong>Eldrin the Wise</strong><br><span style="font-size:8px;color:#888">Fire Mage · Lvl 12</span></div>
+          </div>
+          <p class="stat-label">HP</p>
+          <progress class="nes-progress is-success" value="85" max="100"></progress>
+          <p class="stat-label">Mana</p>
+          <progress class="nes-progress is-primary" value="60" max="100"></progress>
+          <div><span class="spell-tag fire">🔥 Fire</span><span class="spell-tag lightning">⚡ Lightning</span></div>
+        </div>
+        <div class="nes-container is-dark">
+          <div class="flex-row">
+            <div class="avatar-circle">🧝</div>
+            <div><strong>Lyra Frostweaver</strong><br><span style="font-size:8px;color:#888">Ice Sorceress · Lvl 10</span></div>
+          </div>
+          <p class="stat-label">HP</p>
+          <progress class="nes-progress is-success" value="70" max="100"></progress>
+          <p class="stat-label">Mana</p>
+          <progress class="nes-progress is-primary" value="90" max="100"></progress>
+          <div><span class="spell-tag ice">❄️ Ice</span><span class="spell-tag arcane">✨ Arcane</span></div>
+        </div>
+        <div class="nes-container is-dark">
+          <div class="flex-row">
+            <div class="avatar-circle">🧌</div>
+            <div><strong>Thorin Earthshaker</strong><br><span style="font-size:8px;color:#888">Earth Druid · Lvl 8</span></div>
+          </div>
+          <p class="stat-label">HP</p>
+          <progress class="nes-progress is-success" value="95" max="100"></progress>
+          <p class="stat-label">Mana</p>
+          <progress class="nes-progress is-primary" value="40" max="100"></progress>
+          <div><span class="spell-tag earth">🌿 Earth</span><span class="spell-tag defense">🛡️ Defense</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spell Table -->
+    <section>
+      <h2 style="font-size:14px; margin-bottom:16px;">Known Spells</h2>
+      <div class="nes-container is-dark" style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Spell</th><th>Element</th><th>Power</th><th>Mana</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>Fireball</td><td>🔥 Fire</td><td>45</td><td>30</td><td><button class="nes-btn is-warning" style="font-size:8px;padding:2px 8px">Cast</button></td></tr>
+            <tr><td>Frost Nova</td><td>❄️ Ice</td><td>35</td><td>25</td><td><button class="nes-btn is-warning" style="font-size:8px;padding:2px 8px">Cast</button></td></tr>
+            <tr><td>Lightning Bolt</td><td>⚡ Zap</td><td>55</td><td>40</td><td><button class="nes-btn is-warning" style="font-size:8px;padding:2px 8px">Cast</button></td></tr>
+            <tr><td>Earthquake</td><td>🌿 Earth</td><td>60</td><td>50</td><td><button class="nes-btn is-warning" style="font-size:8px;padding:2px 8px">Cast</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Login Form -->
+    <section class="form-section" style="margin-top:24px">
+      <h2 style="font-size:14px; margin-bottom:16px; text-align:center;">Sign In to Academy</h2>
+      <div class="nes-container is-dark">
+        <form>
+          <label class="form-label">Email</label>
+          <input type="email" placeholder="wizard@academy.com">
+          <label class="form-label">Password</label>
+          <input type="password" placeholder="********">
+          <label style="font-size:9px;color:#888">
+            <input type="checkbox" class="nes-checkbox is-dark" checked><span>Remember me</span>
+          </label>
+          <br><br>
+          <button type="submit" class="nes-btn is-primary" style="width:100%">Enter the Academy</button>
+        </form>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Wizard Academy RPG · Styled with <strong class="text-gold">NES.css</strong> · Retro 8-bit CSS framework · Perfect for RPG games!</p>
+  </footer>
+
+</body>
+</html>

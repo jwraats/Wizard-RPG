@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wizard RPG – Bulma</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <style>
+    :root {
+      --bulma-body-background-color: #1a1a2e;
+      --bulma-body-color: #e0e0e0;
+      --bulma-scheme-main: #1a1a2e;
+    }
+    body { background: #1a1a2e; color: #e0e0e0; }
+    .navbar { background: #16213e !important; }
+    .navbar-item, .navbar-link { color: #ccc !important; }
+    .navbar-item:hover { color: #f0a500 !important; background: transparent !important; }
+    .box { background: #16213e; border: 1px solid #0f3460; }
+    .hero-body { background: linear-gradient(to bottom, #16213e, #1a1a2e); }
+    .title, .subtitle { color: #e0e0e0 !important; }
+    .input, .select select { background: #0f3460 !important; border-color: #533483 !important; color: #fff !important; }
+    .input::placeholder { color: #888 !important; }
+    .label { color: #aaa !important; }
+    .table { background: #16213e !important; color: #e0e0e0 !important; }
+    .table thead td, .table thead th { color: #aaa !important; border-color: #0f3460 !important; }
+    .table td, .table th { border-color: #0f3460 !important; }
+    .progress { background: #0f3460; }
+    .text-gold { color: #f0a500; }
+    .footer { background: #16213e !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar is-dark" role="navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item text-gold" href="#"><strong>🧙 Wizard Academy RPG</strong></a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Dashboard</a>
+        <a class="navbar-item" href="#">Spells</a>
+        <a class="navbar-item" href="#">Battle</a>
+        <a class="navbar-item" href="#">Leaderboard</a>
+        <div class="navbar-item"><span class="tag is-primary is-rounded">Level 12</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero is-medium">
+    <div class="hero-body has-text-centered">
+      <p class="title is-2">Welcome, Archmage!</p>
+      <p class="subtitle is-5" style="color:#888 !important; max-width:600px; margin:0 auto;">Master the arcane arts, duel rival wizards, brew powerful potions, and rise through the ranks of the Academy.</p>
+      <div class="buttons is-centered mt-4">
+        <button class="button is-primary is-medium">Start Duel</button>
+        <button class="button is-outlined is-warning is-medium">Brew Potion</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Character Cards -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3">Your Party</h2>
+      <div class="columns">
+        <div class="column is-4">
+          <div class="box">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48"><div style="width:48px;height:48px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;font-size:1.3rem">🧙</div></figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-5">Eldrin the Wise</p>
+                <p class="subtitle is-7" style="color:#888 !important">Fire Mage · Lvl 12</p>
+              </div>
+            </div>
+            <div class="content">
+              <p style="color:#888;font-size:0.85rem">HP</p>
+              <progress class="progress is-success is-small" value="85" max="100">85%</progress>
+              <p style="color:#888;font-size:0.85rem">Mana</p>
+              <progress class="progress is-info is-small" value="60" max="100">60%</progress>
+              <div class="tags mt-2">
+                <span class="tag is-danger is-light">🔥 Fire</span>
+                <span class="tag is-warning is-light">⚡ Lightning</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4">
+          <div class="box">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48"><div style="width:48px;height:48px;border-radius:50%;background:#0ea5e9;display:flex;align-items:center;justify-content:center;font-size:1.3rem">🧝</div></figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-5">Lyra Frostweaver</p>
+                <p class="subtitle is-7" style="color:#888 !important">Ice Sorceress · Lvl 10</p>
+              </div>
+            </div>
+            <div class="content">
+              <p style="color:#888;font-size:0.85rem">HP</p>
+              <progress class="progress is-success is-small" value="70" max="100">70%</progress>
+              <p style="color:#888;font-size:0.85rem">Mana</p>
+              <progress class="progress is-info is-small" value="90" max="100">90%</progress>
+              <div class="tags mt-2">
+                <span class="tag is-info is-light">❄️ Ice</span>
+                <span class="tag is-link is-light">✨ Arcane</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4">
+          <div class="box">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48"><div style="width:48px;height:48px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;font-size:1.3rem">🧌</div></figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-5">Thorin Earthshaker</p>
+                <p class="subtitle is-7" style="color:#888 !important">Earth Druid · Lvl 8</p>
+              </div>
+            </div>
+            <div class="content">
+              <p style="color:#888;font-size:0.85rem">HP</p>
+              <progress class="progress is-success is-small" value="95" max="100">95%</progress>
+              <p style="color:#888;font-size:0.85rem">Mana</p>
+              <progress class="progress is-info is-small" value="40" max="100">40%</progress>
+              <div class="tags mt-2">
+                <span class="tag is-success is-light">🌿 Earth</span>
+                <span class="tag is-warning is-light">🛡️ Defense</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spell Table -->
+  <section class="section pt-0">
+    <div class="container">
+      <h2 class="title is-3">Known Spells</h2>
+      <div class="table-container">
+        <table class="table is-fullwidth is-hoverable">
+          <thead><tr><th>Spell</th><th>Element</th><th>Power</th><th>Mana Cost</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>Fireball</td><td>🔥 Fire</td><td>45</td><td>30</td><td><button class="button is-small is-warning is-outlined">Cast</button></td></tr>
+            <tr><td>Frost Nova</td><td>❄️ Ice</td><td>35</td><td>25</td><td><button class="button is-small is-warning is-outlined">Cast</button></td></tr>
+            <tr><td>Lightning Bolt</td><td>⚡ Lightning</td><td>55</td><td>40</td><td><button class="button is-small is-warning is-outlined">Cast</button></td></tr>
+            <tr><td>Earthquake</td><td>🌿 Earth</td><td>60</td><td>50</td><td><button class="button is-small is-warning is-outlined">Cast</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Login Form -->
+  <section class="section">
+    <div class="container" style="max-width:450px">
+      <h2 class="title is-3 has-text-centered">Sign In to Academy</h2>
+      <div class="box">
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control"><input class="input" type="email" placeholder="wizard@academy.com"></div>
+        </div>
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control"><input class="input" type="password" placeholder="••••••••"></div>
+        </div>
+        <div class="field">
+          <label class="checkbox"><input type="checkbox"> <span style="color:#888">Remember me</span></label>
+        </div>
+        <button class="button is-primary is-fullwidth">Enter the Academy</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer has-text-centered" style="color:#888">
+    <p>Wizard Academy RPG · Styled with <strong style="color:#ccc">Bulma</strong> · Modern CSS framework based on Flexbox</p>
+  </footer>
+
+</body>
+</html>
