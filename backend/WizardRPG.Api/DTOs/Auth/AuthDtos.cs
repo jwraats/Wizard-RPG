@@ -1,6 +1,6 @@
 namespace WizardRPG.Api.DTOs.Auth;
 
-public record RegisterRequest(string Username, string Email, string Password, string? ReferralCode);
+public record RegisterRequest(string Username, string Email, string Password, string? ReferralCode, string? House);
 public record LoginRequest(string Email, string Password);
 public record RefreshTokenRequest(string RefreshToken);
 

@@ -53,6 +53,20 @@ public class BattleServiceTests
         return mock;
     }
 
+    private static BattleService CreateService(AppDbContext db)
+    {
+        var narratorMock = CreateNarratorMock();
+        var equipmentMock = new Mock<IEquipmentService>();
+        equipmentMock.Setup(e => e.GetEquipmentBonusesAsync(It.IsAny<Guid>()))
+            .ReturnsAsync((0, 0, 0, 0));
+        var notificationMock = new Mock<INotificationService>();
+        var questMock = new Mock<IQuestService>();
+        var achievementMock = new Mock<IAchievementService>();
+
+        return new BattleService(db, narratorMock.Object, equipmentMock.Object,
+            notificationMock.Object, questMock.Object, achievementMock.Object);
+    }
+
     [Fact]
     public async Task ChallengeBattleAsync_CreatesPendingBattle()
     {
@@ -62,7 +76,7 @@ public class BattleServiceTests
         db.Players.AddRange(challenger, defender);
         await db.SaveChangesAsync();
 
-        var service = new BattleService(db, CreateNarratorMock().Object);
+        var service = CreateService(db);
         var result = await service.ChallengeBattleAsync(challenger.Id, defender.Id);
 
         Assert.Equal(BattleStatus.Pending, result.Status);
@@ -78,7 +92,7 @@ public class BattleServiceTests
         db.Players.Add(player);
         await db.SaveChangesAsync();
 
-        var service = new BattleService(db, CreateNarratorMock().Object);
+        var service = CreateService(db);
 
         await Assert.ThrowsAsync<InvalidOperationException>(
             () => service.ChallengeBattleAsync(player.Id, player.Id));
@@ -101,7 +115,7 @@ public class BattleServiceTests
         db.Battles.Add(battle);
         await db.SaveChangesAsync();
 
-        var service = new BattleService(db, CreateNarratorMock().Object);
+        var service = CreateService(db);
         var result = await service.AcceptBattleAsync(battle.Id, defender.Id);
 
         Assert.Equal(BattleStatus.Active, result.Status);
@@ -126,7 +140,7 @@ public class BattleServiceTests
         db.Battles.Add(battle);
         await db.SaveChangesAsync();
 
-        var service = new BattleService(db, CreateNarratorMock().Object);
+        var service = CreateService(db);
         var result = await service.ExecuteTurnAsync(battle.Id, challenger.Id, spell.Id);
 
         Assert.Single(result.Turns);
@@ -152,7 +166,7 @@ public class BattleServiceTests
         db.Battles.Add(battle);
         await db.SaveChangesAsync();
 
-        var service = new BattleService(db, CreateNarratorMock().Object);
+        var service = CreateService(db);
 
         // Defender tries to attack first (should be challenger's turn)
         await Assert.ThrowsAsync<InvalidOperationException>(
@@ -178,7 +192,7 @@ public class BattleServiceTests
         db.Battles.Add(battle);
         await db.SaveChangesAsync();
 
-        var service = new BattleService(db, CreateNarratorMock().Object);
+        var service = CreateService(db);
 
         BattleResponse? result = null;
         for (var i = 0; i < 10; i++)

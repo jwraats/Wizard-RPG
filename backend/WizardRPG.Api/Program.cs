@@ -59,6 +59,12 @@ builder.Services.AddScoped<IFellowshipService, FellowshipService>();
 builder.Services.AddScoped<IBattleService, BattleService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddSingleton<ILLMNarratorService, PlaceholderNarratorService>();
+builder.Services.AddScoped<IHouseService, HouseService>();
+builder.Services.AddScoped<IQuestService, QuestService>();
+builder.Services.AddScoped<IAchievementService, AchievementService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+builder.Services.AddScoped<ILoginRewardService, LoginRewardService>();
 
 // SignalR
 builder.Services.AddSignalR();

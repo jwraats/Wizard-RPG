@@ -51,4 +51,12 @@ public class PlayerController : ControllerBase
         var leaderboard = await _playerService.GetLeaderboardAsync(top);
         return Ok(leaderboard);
     }
+
+    /// <summary>Get battle statistics for a player.</summary>
+    [HttpGet("battle-stats/{playerId:guid}")]
+    public async Task<ActionResult<BattleStatsResponse>> GetBattleStats(Guid playerId)
+    {
+        var stats = await _playerService.GetBattleStatsAsync(playerId);
+        return Ok(stats);
+    }
 }

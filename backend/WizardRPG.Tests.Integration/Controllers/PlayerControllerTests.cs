@@ -45,7 +45,7 @@ public class PlayerControllerTests : IClassFixture<WebApplicationFactory<Program
         string password = "Password123!")
     {
         var client = _factory.CreateClient();
-        var regRequest = new RegisterRequest(username, email, password, null);
+        var regRequest = new RegisterRequest(username, email, password, null, null);
         var regResponse = await client.PostAsJsonAsync("/api/auth/register", regRequest);
         var auth = await regResponse.Content.ReadFromJsonAsync<AuthResponse>();
         client.DefaultRequestHeaders.Authorization =
