@@ -18,6 +18,7 @@ public class PlayerControllerTests : IClassFixture<WebApplicationFactory<Program
 
     public PlayerControllerTests(WebApplicationFactory<Program> factory)
     {
+        var dbName = "IntegrationTestDb_Player_" + Guid.NewGuid();
         _factory = factory.WithWebHostBuilder(builder =>
         {
             builder.UseEnvironment("Testing");
@@ -29,7 +30,7 @@ public class PlayerControllerTests : IClassFixture<WebApplicationFactory<Program
                     services.Remove(descriptor);
 
                 services.AddDbContext<AppDbContext>(options =>
-                    options.UseInMemoryDatabase("IntegrationTestDb_Player_" + Guid.NewGuid()));
+                    options.UseInMemoryDatabase(dbName));
 
                 var sp = services.BuildServiceProvider();
                 using var scope = sp.CreateScope();
